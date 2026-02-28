@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paper & Ink: Japan | Discovery</title>
-    <meta name="description" content="Discover the history, art, and philosophy of Japanese Shodo and Origami.">
+    <meta name="description" content="Discover the history, art, and philosophy of Japanese Shodo, Origami, and Zen aesthetics.">
     
     <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -12,22 +12,45 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Bodoni+Moda:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
 
     <style>
+        /* Multi-Color Wabi-Sabi Palette */
         :root {
-            --bg-light: #fafafa;
-            --pure-white: #ffffff;
-            --ink-black: #111111;
-            --ink-gray: #555555;
-            --border-light: #e5e5e5;
-            --imperial-red: #bc002d;
-            --red-tint: rgba(188, 0, 45, 0.03);
+            /* Backgrounds */
+            --bg-washi: #f2eee5;     /* Warm, aged paper background */
+            --bg-card: #fbfaf6;      /* Slightly brighter paper for cards */
+            --border-earth: #d6cfc3; /* Soft, natural dividing lines */
+            
+            /* Typography */
+            --ink-main: #36312d;     /* Deep, warm brownish-charcoal */
+            --ink-muted: #7a7269;    /* Softer, faded brown-grey */
+            
+            /* Accents */
+            --accent-matcha: #6b7a60; /* Earthy green for primary focus */
+            --accent-clay: #b56a5c;   /* Terracotta red for secondary interactions */
+            --matcha-tint: rgba(107, 122, 96, 0.15);
+            --clay-tint: rgba(181, 106, 92, 0.12);
+            
+            /* Shadows */
+            --earth-shadow: rgba(54, 49, 45, 0.06);
+            --hover-shadow: rgba(107, 122, 96, 0.15);
         }
 
         body {
-            background-color: var(--bg-light);
-            color: var(--ink-black);
+            background-color: var(--bg-washi);
+            color: var(--ink-main);
             font-family: 'Noto Sans JP', sans-serif;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            position: relative;
+        }
+
+        /* Subtle Washi Paper Grain Texture Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
         }
 
         .font-serif {
@@ -36,12 +59,14 @@
 
         /* Window Card Styles */
         .window-card {
-            background: var(--pure-white);
-            border: 1px solid var(--border-light);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: var(--bg-card);
+            border: 1px solid var(--border-earth);
+            border-radius: 4px;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 12px var(--earth-shadow);
         }
 
         .window-card::after {
@@ -49,69 +74,82 @@
             position: absolute;
             inset: 0;
             border: 1px solid transparent;
-            transition: border-color 0.4s ease;
+            border-radius: 4px;
+            transition: border-color 0.5s ease;
+            pointer-events: none;
         }
 
         .window-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(188,0,45,0.06);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px var(--hover-shadow);
         }
 
         .window-card:hover::after {
-            border-color: var(--imperial-red);
+            border-color: var(--accent-matcha);
         }
 
         .window-image-container {
             width: 100%;
             height: 60%;
-            background: var(--bg-light);
+            background: var(--bg-washi);
             display: flex;
             align-items: center;
             justify-content: center;
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-earth);
             overflow: hidden;
-            transition: all 0.4s ease;
+            transition: all 0.5s ease;
+            color: var(--ink-main); /* Base color for SVG strokes */
         }
 
+        /* Dual-tone hover effect */
         .window-card:hover .window-image-container {
-            color: var(--imperial-red);
-            background: var(--red-tint);
-            border-bottom-color: var(--imperial-red);
+            color: var(--accent-clay); /* Changes the stroke color of the SVGs dynamically */
+            background: var(--bg-card);
+            border-bottom-color: var(--accent-matcha);
         }
 
-        .window-image-container svg, .window-image-container img {
+        .window-image-container svg {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            opacity: 0.9;
-            transition: transform 0.6s ease;
+            object-fit: contain;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        .window-card:hover .window-image-container svg, .window-card:hover .window-image-container img {
-            transform: scale(1.05);
+        .window-card:hover .window-image-container svg {
+            transform: scale(1.03);
         }
 
         /* Content Article Styles */
+        .article-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-earth);
+            border-radius: 4px;
+            box-shadow: 0 10px 30px var(--earth-shadow);
+            position: relative;
+        }
+
         .article-content p {
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-            color: var(--ink-gray);
+            margin-bottom: 1.75rem;
+            line-height: 1.9;
+            color: var(--ink-muted);
+            font-size: 1.05rem;
         }
         
         .article-content strong {
-            color: var(--ink-black);
+            color: var(--ink-main);
             font-weight: 500;
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg-light); }
-        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--ink-black); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-washi); }
+        ::-webkit-scrollbar-thumb { background: var(--border-earth); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-matcha); }
 
         /* Navigation Button Hover */
         .nav-btn {
             position: relative;
+            color: var(--ink-muted);
         }
         .nav-btn::after {
             content: '';
@@ -120,11 +158,11 @@
             height: 1px;
             bottom: -2px;
             left: 0;
-            background-color: var(--imperial-red);
+            background-color: var(--accent-matcha);
             transition: width 0.3s ease;
         }
         .nav-btn:hover {
-            color: var(--imperial-red);
+            color: var(--accent-matcha);
         }
         .nav-btn:hover::after {
             width: 100%;
@@ -135,26 +173,26 @@
             display: inline-block;
             width: 10px;
             height: 10px;
-            background-color: var(--imperial-red);
+            background-color: var(--accent-clay);
             border-radius: 50%;
-            margin-left: 10px;
+            margin-left: 12px;
             transform: translateY(-2px);
+        }
+        
+        .header-bg {
+            background-color: rgba(242, 238, 229, 0.85); /* Washi with opacity */
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <!-- Header / Branding -->
-    <header class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-[var(--border-light)] transition-all duration-300 h-20 flex items-center">
+    <header class="fixed top-0 w-full z-50 header-bg backdrop-blur-md border-b border-[var(--border-earth)] transition-all duration-300 h-20 flex items-center">
         <div class="container mx-auto px-8 w-full flex justify-between items-center">
-            <!-- Logo -->
-            <div class="text-2xl font-serif font-black tracking-tighter uppercase cursor-pointer flex items-center" onclick="goHome()">
+            <div class="text-2xl font-serif font-black tracking-tighter uppercase cursor-pointer flex items-center text-[var(--ink-main)]" onclick="goHome()">
                 Paper & Ink Japan <span class="hanko-stamp"></span>
             </div>
-            
-            <!-- Dynamic Navigation Controls -->
             <div id="nav-controls" class="hidden opacity-0">
-                <button onclick="goBack()" class="nav-btn text-sm uppercase tracking-widest font-sans text-[var(--ink-gray)] transition-colors flex items-center gap-2">
+                <button onclick="goBack()" class="nav-btn text-sm uppercase tracking-widest font-sans transition-colors flex items-center gap-2">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
                     Back
                 </button>
@@ -162,45 +200,415 @@
         </div>
     </header>
 
-    <!-- Main Discovery Area -->
     <main class="flex-grow pt-32 pb-24 px-8 flex flex-col items-center justify-center min-h-screen" id="main-container">
-        
-        <!-- Header Text (Dynamic) -->
         <div id="discovery-header" class="text-center mb-16 max-w-2xl mx-auto flex flex-col items-center">
-            <div class="w-8 h-1 bg-[var(--imperial-red)] mb-8"></div>
-            <h1 class="text-5xl md:text-6xl font-serif font-bold mb-6 tracking-tight" id="view-title">Discover</h1>
-            <p class="text-lg font-sans font-light text-[var(--ink-gray)]" id="view-subtitle">Select a window to begin your journey through Japanese artistry and philosophy.</p>
+            <div class="w-8 h-1 bg-[var(--accent-matcha)] mb-8 opacity-80"></div>
+            <h1 class="text-5xl md:text-6xl font-serif font-bold mb-6 tracking-tight text-[var(--ink-main)]" id="view-title">Discover</h1>
+            <p class="text-lg font-sans font-light text-[var(--ink-muted)]" id="view-subtitle">Select a window to begin your journey through Japanese artistry and philosophy.</p>
         </div>
-
-        <!-- Dynamic Content Injector -->
-        <div id="view-container" class="w-full max-w-6xl mx-auto">
-            <!-- Windows or Article will be injected here -->
+        <div id="view-container" class="w-full max-w-6xl mx-auto z-10">
         </div>
-
     </main>
 
-    <footer class="py-8 border-t border-[var(--border-light)] bg-white text-center">
-        <p class="text-xs font-sans uppercase tracking-widest text-[var(--ink-gray)]">&copy; 2026 Paper & Ink: Japan. Curated Discovery.</p>
+    <footer class="py-10 border-t border-[var(--border-earth)] bg-[var(--bg-washi)] text-center relative z-10">
+        <p class="text-xs font-sans uppercase tracking-widest text-[var(--ink-muted)]">&copy; 2026 Paper & Ink: Japan. Curated Discovery.</p>
     </footer>
 
     <script>
         // --------------------------------------------------------
-        // STATIC VECTOR ARTWORK (Replaces dynamic API for performance & GitHub Pages hosting)
+        // 21 UNIQUE, HIGHLY DETAILED VECTOR ILLUSTRATIONS
         // --------------------------------------------------------
-        const SVG_BRUSH = `<svg viewBox="0 0 200 200" class="w-full h-full p-8" fill="none" stroke="currentColor" stroke-width="0.75" vector-effect="non-scaling-stroke"><path d="M100 40 A 60 60 0 1 1 40 100 A 60 60 0 0 1 90 42" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="300" stroke-dashoffset="20"/><line x1="140" y1="20" x2="110" y2="100" stroke-width="1.5"/><path d="M110 100 C100 120, 115 130, 105 140 C100 130, 105 110, 110 100" fill="currentColor"/></svg>`;
         
-        const SVG_CRANE = `<svg viewBox="0 0 200 200" class="w-full h-full p-8" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linejoin="round" vector-effect="non-scaling-stroke"><polygon points="100,60 140,100 100,140 60,100"/><polygon points="100,60 120,80 100,100"/><polygon points="60,100 80,120 100,100"/><polyline points="100,60 110,30 95,40 100,60"/><polyline points="100,140 130,170 140,150 100,140"/><line x1="60" y1="100" x2="30" y2="70"/><line x1="30" y1="70" x2="100" y2="80"/><line x1="140" y1="100" x2="170" y2="70"/><line x1="170" y1="70" x2="100" y2="80"/></svg>`;
-        
-        const SVG_VOID = `<svg viewBox="0 0 200 200" class="w-full h-full p-8" fill="none" stroke="currentColor" stroke-width="0.5" vector-effect="non-scaling-stroke"><ellipse cx="100" cy="140" rx="50" ry="15"/><ellipse cx="100" cy="115" rx="35" ry="12"/><ellipse cx="100" cy="95" rx="25" ry="10"/><ellipse cx="100" cy="80" rx="15" ry="6"/><path d="M30 140 Q 100 180 170 140" stroke-dasharray="2 4"/><path d="M10 140 Q 100 210 190 140" stroke-dasharray="2 4"/></svg>`;
-        
-        const SVG_HISTORY = `<svg viewBox="0 0 200 200" class="w-full h-full p-8" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"><circle cx="100" cy="100" r="45" stroke-width="0.5" stroke-dasharray="2 4"/><rect x="50" y="60" width="100" height="8" fill="currentColor"/><rect x="60" y="75" width="80" height="4" fill="currentColor"/><rect x="65" y="68" width="6" height="80"/><rect x="129" y="68" width="6" height="80"/></svg>`;
-        
-        const SVG_TOOLS = `<svg viewBox="0 0 200 200" class="w-full h-full p-8" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"><rect x="40" y="40" width="80" height="120" stroke-width="0.5"/><line x1="60" y1="60" x2="60" y2="140" stroke-width="0.5" stroke-dasharray="2 2"/><rect x="130" y="100" width="40" height="60" rx="5"/><circle cx="150" cy="120" r="10"/><rect x="140" y="50" width="12" height="40" fill="currentColor"/></svg>`;
-        
-        const SVG_SPACE = `<svg viewBox="0 0 200 200" class="w-full h-full p-8" fill="none" stroke="currentColor" stroke-width="0.75" vector-effect="non-scaling-stroke"><g transform="translate(100,100)"><polygon points="0,-60 52,-30 52,30 0,60 -52,30 -52,-30"/><polygon points="0,-20 17,-10 17,10 0,20 -17,10 -17,-10"/><line x1="0" y1="-60" x2="0" y2="-20"/><line x1="52" y1="-30" x2="17" y2="-10"/><line x1="52" y1="30" x2="17" y2="10"/><line x1="0" y1="60" x2="0" y2="20"/><line x1="-52" y1="30" x2="-17" y2="10"/><line x1="-52" y1="-30" x2="-17" y2="-10"/></g></svg>`;
-        
-        const SVG_MIND = `<svg viewBox="0 0 200 200" class="w-full h-full p-8" fill="none" stroke="currentColor" stroke-width="0.75" vector-effect="non-scaling-stroke"><path d="M100 160 C100 160, 40 110, 100 50 C160 110, 100 160, 100 160 Z"/><path d="M100 160 C100 160, 10 100, 70 40 C120 90, 100 160, 100 160 Z"/><path d="M100 160 C100 160, 190 100, 130 40 C80 90, 100 160, 100 160 Z"/></svg>`;
+        /* --- PHILOSOPHY SVGs --- */
+        // 1. MAIN: PHILOSOPHY (Karesansui / Zen Rock Garden)
+        const SVG_MAIN_PHILOSOPHY = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="20" y="20" width="260" height="160" fill="var(--matcha-tint)" rx="4"/>
+                <path d="M40 50 Q 150 80 260 50 M40 70 Q 150 100 260 70 M40 90 Q 150 120 260 90 M40 110 Q 150 140 260 110 M40 130 Q 150 160 260 130 M40 150 Q 150 180 260 150 M40 170 Q 150 200 260 170" stroke="currentColor" stroke-width="1" opacity="0.3" fill="none"/>
+                <path d="M90 120 C 70 120 60 140 80 150 C 100 160 110 130 90 120 Z" fill="currentColor" opacity="0.8"/>
+                <path d="M190 70 C 170 60 150 80 160 100 C 180 110 210 90 190 70 Z" fill="currentColor" opacity="0.9"/>
+                <path d="M230 130 C 220 120 210 135 225 145 C 240 150 240 135 230 130 Z" fill="var(--accent-clay)" opacity="0.9"/>
+                <circle cx="80" cy="145" r="15" fill="var(--accent-matcha)" opacity="0.7"/>
+                <circle cx="165" cy="95" r="18" fill="var(--accent-matcha)" opacity="0.8"/>
+                <circle cx="220" cy="140" r="10" fill="var(--accent-matcha)" opacity="0.6"/>
+                <line x1="240" y1="30" x2="280" y2="70" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                <line x1="265" y1="55" x2="255" y2="65" stroke="currentColor" stroke-width="2"/>
+                <line x1="275" y1="45" x2="265" y2="55" stroke="currentColor" stroke-width="2"/>
+            </svg>`;
 
+        // 2. PHILOSOPHY 1: MA CONCEPT (Doorway with Moon)
+        const SVG_PHIL_MA = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background ambient light in the gap -->
+                <rect x="110" y="20" width="80" height="160" fill="var(--matcha-tint)"/>
+                <!-- Sliding Doors slightly open -->
+                <rect x="20" y="20" width="100" height="160" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+                <rect x="180" y="20" width="100" height="160" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+                <!-- Shoji wooden frames -->
+                <line x1="20" y1="60" x2="120" y2="60" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                <line x1="20" y1="100" x2="120" y2="100" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                <line x1="20" y1="140" x2="120" y2="140" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                <line x1="180" y1="60" x2="280" y2="60" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                <line x1="180" y1="100" x2="280" y2="100" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                <line x1="180" y1="140" x2="280" y2="140" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                <!-- Glowing Moon peeping through -->
+                <circle cx="150" cy="80" r="25" fill="var(--accent-clay)" opacity="0.9"/>
+                <circle cx="150" cy="80" r="35" fill="var(--accent-clay)" opacity="0.15"/>
+                <!-- Minimal silhouette in the gap -->
+                <path d="M120 150 Q 140 130 160 140" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="140" cy="135" r="3" fill="var(--accent-matcha)"/>
+            </svg>`;
+
+        // 3. PHILOSOPHY 2: ARCHITECTURE (Tokonoma Alcove)
+        const SVG_PHIL_ARCH = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Tokonoma frame -->
+                <rect x="80" y="30" width="140" height="140" fill="var(--bg-card)" stroke="currentColor" stroke-width="3"/>
+                <!-- Wooden pillar (Tokobashira) -->
+                <rect x="60" y="30" width="15" height="140" fill="var(--matcha-tint)" stroke="currentColor" stroke-width="2"/>
+                <line x1="65" y1="30" x2="65" y2="170" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+                <!-- Hanging scroll, asymmetrical placement -->
+                <rect x="140" y="40" width="40" height="90" fill="var(--bg-washi)" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="150" y1="50" x2="150" y2="100" stroke="currentColor" stroke-width="2" stroke-dasharray="4 6" opacity="0.6"/>
+                <!-- Ikebana arrangement -->
+                <rect x="90" y="140" width="30" height="10" fill="var(--accent-clay)" rx="2"/>
+                <path d="M105 140 Q 100 100 130 90" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <circle cx="125" cy="95" r="4" fill="var(--accent-matcha)"/>
+                <circle cx="115" cy="115" r="5" fill="var(--accent-matcha)"/>
+                <!-- Tatami mat floor -->
+                <polygon points="40,170 260,170 300,200 0,200" fill="var(--clay-tint)" stroke="currentColor" stroke-width="2"/>
+                <line x1="150" y1="170" x2="150" y2="200" stroke="currentColor" stroke-width="2"/>
+            </svg>`;
+
+        // 4. PHILOSOPHY 3: WABI-SABI (Kintsugi Bowl & Withered Leaf)
+        const SVG_PHIL_WABI = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="150" cy="100" r="70" fill="var(--clay-tint)"/>
+                <!-- Rough, asymmetrical chawan -->
+                <path d="M80 70 C 70 140 100 160 150 160 C 200 160 230 140 220 70 Z" fill="var(--bg-card)" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+                <ellipse cx="150" cy="70" rx="70" ry="15" fill="var(--matcha-tint)" stroke="currentColor" stroke-width="3"/>
+                <!-- Kintsugi cracks -->
+                <path d="M110 83 L 130 110 L 120 140 M 130 110 L 160 120 L 180 155" stroke="var(--accent-clay)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <path d="M110 83 L 130 110 L 120 140 M 130 110 L 160 120 L 180 155" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <!-- Falling/fading petal / leaf (Sabi) -->
+                <path d="M220 40 Q 240 30 250 50 Q 260 70 230 80 Q 210 70 220 40 Z" fill="var(--accent-matcha)" opacity="0.6"/>
+                <path d="M220 40 Q 240 30 250 50 Q 260 70 230 80 Q 210 70 220 40 Z" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="230" y1="50" x2="240" y2="60" stroke="currentColor" stroke-width="1"/>
+                <!-- Tea whisk (Chasen) hinting at ceremony -->
+                <path d="M60 140 L 75 160 L 50 170 Z" fill="var(--bg-washi)" stroke="currentColor" stroke-width="2"/>
+            </svg>`;
+
+        // 5. PHILOSOPHY 4: ARTS INTEGRATION (Kasure Stroke & Wet Origami)
+        const SVG_PHIL_ARTS = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="40" y="30" width="220" height="140" fill="var(--matcha-tint)" opacity="0.5" rx="4"/>
+                <!-- Scratchy brush stroke (Kasure) -->
+                <path d="M60 150 Q 100 120 120 80" stroke="currentColor" stroke-width="18" stroke-linecap="round" fill="none"/>
+                <path d="M125 70 Q 140 40 160 50" stroke="currentColor" stroke-width="10" stroke-linecap="round" fill="none"/>
+                <path d="M150 60 Q 180 80 160 120" stroke="currentColor" stroke-width="4" stroke-dasharray="4 8" stroke-linecap="round" fill="none"/>
+                <path d="M155 70 Q 190 90 170 130" stroke="currentColor" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round" fill="none"/>
+                <!-- Origami abstract geometric structure emerging from stroke -->
+                <polygon points="160,120 220,90 200,160" fill="var(--bg-card)" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <polygon points="160,120 220,90 190,110" fill="var(--accent-clay)" opacity="0.8"/>
+                <polygon points="190,110 220,90 200,160" fill="var(--accent-matcha)" opacity="0.6"/>
+                <!-- Dynamic particles -->
+                <circle cx="240" cy="70" r="4" fill="var(--accent-clay)"/>
+                <circle cx="100" cy="50" r="2" fill="currentColor"/>
+            </svg>`;
+
+        // 6. PHILOSOPHY 5: MODERN DESIGN (Japandi Interior)
+        const SVG_PHIL_DESIGN = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Modern Japandi space -->
+                <line x1="20" y1="160" x2="280" y2="160" stroke="currentColor" stroke-width="2"/> <!-- floor line -->
+                <!-- Sunlight polygon/shadow -->
+                <polygon points="100,20 280,20 220,160 40,160" fill="var(--clay-tint)"/>
+                <polygon points="100,20 280,20 250,90 70,90" fill="var(--matcha-tint)" opacity="0.5"/>
+                <!-- Minimalist wooden stool/table -->
+                <path d="M180 120 L 220 120 L 230 160 L 215 160 L 210 130 L 190 130 L 185 160 L 170 160 Z" fill="var(--bg-card)" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <ellipse cx="200" cy="120" rx="25" ry="8" fill="var(--accent-clay)" opacity="0.9"/>
+                <!-- Single ceramic vase with grass -->
+                <path d="M190 115 C 190 90 210 90 210 115 Z" fill="var(--bg-washi)" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M200 95 Q 180 60 210 50" stroke="var(--accent-matcha)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M200 95 Q 190 70 170 80" stroke="var(--accent-matcha)" stroke-width="1" fill="none" stroke-linecap="round"/>
+            </svg>`;
+
+        // 7. PHILOSOPHY 6: SLOW LIVING (Wrinkled Linen & Warm Tea)
+        const SVG_PHIL_SLOW = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Wrinkled linen table cloth -->
+                <path d="M20 180 Q 80 160 140 185 T 280 170" stroke="currentColor" stroke-width="1.5" opacity="0.3" fill="none"/>
+                <path d="M40 190 Q 90 175 160 195 T 260 180" stroke="currentColor" stroke-width="1" opacity="0.2" fill="none"/>
+                <!-- Sunlight / Warmth aura -->
+                <circle cx="150" cy="90" r="60" fill="var(--clay-tint)"/>
+                <circle cx="150" cy="90" r="40" fill="var(--matcha-tint)"/>
+                <!-- Cupped Hands -->
+                <path d="M90 150 C 70 120 110 90 130 110" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M210 150 C 230 120 190 90 170 110" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M105 130 Q 115 140 135 135" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                <path d="M195 130 Q 185 140 165 135" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                <!-- Rustic Tea Cup -->
+                <path d="M120 80 C 120 140 180 140 180 80 Z" fill="var(--bg-card)" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+                <!-- Steam -->
+                <path d="M140 60 Q 130 40 150 20" stroke="var(--accent-clay)" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
+                <path d="M160 65 Q 170 45 155 30" stroke="var(--accent-matcha)" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
+                <!-- Cup texture / chip -->
+                <path d="M130 80 L 135 90 L 140 80" fill="var(--accent-clay)"/>
+                <line x1="140" y1="100" x2="160" y2="105" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
+            </svg>`;
+
+
+        /* --- SHODO SVGs --- */
+        // 8. MAIN: SHODO (Dynamic Kanji & Ink Splash)
+        const SVG_MAIN_SHODO = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M60 90 C 80 80 100 80 120 90 C 140 100 130 140 110 150 C 90 160 50 150 70 180 C 100 200 180 180 240 160" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <path d="M100 40 C 120 30 150 40 180 30" stroke="currentColor" stroke-width="14" stroke-linecap="round" fill="none"/>
+                <path d="M140 20 L 140 120" stroke="currentColor" stroke-width="16" stroke-linecap="round" fill="none"/>
+                <circle cx="220" cy="140" r="5" fill="currentColor"/>
+                <circle cx="240" cy="130" r="3" fill="currentColor"/>
+                <circle cx="200" cy="175" r="4" fill="currentColor"/>
+                <circle cx="60" cy="50" r="6" fill="currentColor"/>
+                <rect x="230" y="40" width="35" height="35" rx="3" fill="var(--accent-clay)"/>
+                <path d="M240 48 L 240 68 M 248 48 L 248 68 M 256 48 L 256 68 M 235 58 L 260 58" stroke="var(--bg-washi)" stroke-width="2" fill="none"/>
+                <circle cx="150" cy="100" r="90" fill="var(--matcha-tint)" opacity="0.5"/>
+            </svg>`;
+
+        // 9. SHODO 1: HISTORY (Ancient Scroll & Landscape)
+        const SVG_SHODO_HISTORY = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 40 L 220 40 L 220 160 L 50 160 Z" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+                <ellipse cx="50" cy="100" rx="15" ry="60" fill="currentColor"/>
+                <ellipse cx="50" cy="40" rx="15" ry="5" fill="var(--accent-clay)"/>
+                <ellipse cx="50" cy="160" rx="15" ry="5" fill="var(--accent-clay)"/>
+                <ellipse cx="220" cy="100" rx="10" ry="60" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+                <path d="M70 120 Q 90 80 110 120 T 160 110 T 200 130" stroke="currentColor" stroke-width="2" fill="none"/>
+                <path d="M90 130 Q 120 100 150 130" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.6"/>
+                <circle cx="170" cy="70" r="15" fill="var(--accent-clay)" opacity="0.8"/>
+                <line x1="180" y1="55" x2="180" y2="95" stroke="currentColor" stroke-width="3" stroke-dasharray="8 6"/>
+                <line x1="195" y1="55" x2="195" y2="145" stroke="currentColor" stroke-width="3" stroke-dasharray="10 8 5 6"/>
+                <line x1="210" y1="55" x2="210" y2="125" stroke="currentColor" stroke-width="3" stroke-dasharray="6 4 12 5"/>
+                <path d="M50 165 L 50 190 M 45 190 L 55 190 L 50 200 Z" stroke="var(--accent-matcha)" stroke-width="2" fill="var(--accent-matcha)"/>
+            </svg>`;
+
+        // 10. SHODO 2: TOOLS (The Four Treasures Flat-Lay)
+        const SVG_SHODO_TOOLS = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="20" y="20" width="260" height="160" fill="var(--matcha-tint)" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/>
+                <rect x="120" y="40" width="90" height="120" fill="var(--bg-card)" stroke="currentColor" stroke-width="1.5" transform="rotate(-5 120 40)"/>
+                <rect x="120" y="40" width="90" height="120" fill="var(--bg-washi)" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="40" y="60" width="50" height="80" rx="8" fill="currentColor" opacity="0.9"/>
+                <ellipse cx="65" cy="80" rx="15" ry="10" fill="var(--ink-main)"/>
+                <ellipse cx="65" cy="115" rx="15" ry="20" fill="var(--bg-washi)" opacity="0.15"/>
+                <rect x="50" y="150" width="40" height="15" fill="currentColor" transform="rotate(-15 50 150)"/>
+                <rect x="65" y="146" width="10" height="15" fill="var(--accent-clay)" transform="rotate(-15 50 150)"/>
+                <path d="M230 30 L 210 150" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+                <path d="M228 40 L 220 42" stroke="var(--bg-card)" stroke-width="1.5"/>
+                <path d="M218 100 L 210 102" stroke="var(--bg-card)" stroke-width="1.5"/>
+                <path d="M209 150 C 190 160 210 185 215 185 C 220 185 220 160 211 150 Z" fill="currentColor"/>
+                <circle cx="240" cy="120" r="16" fill="var(--accent-matcha)"/>
+                <circle cx="236" cy="116" r="3" fill="var(--bg-card)" opacity="0.8"/>
+            </svg>`;
+            
+        // 11. SHODO 3: TECHNIQUE (The 8 Strokes of "Ei")
+        const SVG_SHODO_TECHNIQUE = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="90" y="30" width="120" height="140" fill="var(--bg-card)" stroke="var(--accent-matcha)" stroke-width="1" opacity="0.5"/>
+                <line x1="90" y1="100" x2="210" y2="100" stroke="var(--accent-matcha)" stroke-width="1" stroke-dasharray="4 4" opacity="0.5"/>
+                <line x1="150" y1="30" x2="150" y2="170" stroke="var(--accent-matcha)" stroke-width="1" stroke-dasharray="4 4" opacity="0.5"/>
+                <path d="M150 45 C 155 50 150 55 145 55 Z" fill="currentColor"/>
+                <path d="M110 75 Q 150 65 190 70" stroke="currentColor" stroke-width="10" stroke-linecap="round" fill="none"/>
+                <path d="M150 70 L 150 145 C 150 155 140 160 135 155" stroke="currentColor" stroke-width="10" stroke-linecap="round" fill="none"/>
+                <path d="M150 100 Q 120 120 100 150" stroke="currentColor" stroke-width="8" stroke-linecap="round" fill="none"/>
+                <path d="M150 110 Q 180 130 200 155" stroke="currentColor" stroke-width="8" stroke-linecap="round" fill="none"/>
+                <path d="M120 90 L 135 105" stroke="currentColor" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <path d="M180 85 L 165 100" stroke="currentColor" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <path d="M110 60 Q 150 50 190 55" stroke="var(--accent-clay)" stroke-width="2" stroke-dasharray="3 3" fill="none"/>
+                <polygon points="190,55 182,50 185,60" fill="var(--accent-clay)"/>
+                <path d="M165 160 Q 145 180 130 170" stroke="var(--accent-clay)" stroke-width="2" stroke-dasharray="3 3" fill="none"/>
+                <polygon points="130,170 140,165 135,175" fill="var(--accent-clay)"/>
+            </svg>`;
+
+        // 12. SHODO 4: PHILOSOPHY (Kasure / Wabi-Sabi Brush Stroke)
+        const SVG_SHODO_PHILOSOPHY = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="180" cy="100" r="75" fill="var(--clay-tint)"/>
+                <circle cx="180" cy="100" r="60" fill="var(--bg-card)" stroke="var(--accent-clay)" stroke-width="1" opacity="0.3"/>
+                <path d="M80 30 Q 100 20 120 50 Q 140 100 120 170" stroke="currentColor" stroke-width="20" stroke-linecap="round" fill="none"/>
+                <path d="M122 130 Q 125 150 125 180" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
+                <path d="M110 140 Q 110 160 105 185" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <path d="M130 150 Q 135 165 140 175" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/>
+                <path d="M115 160 Q 112 175 118 190" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/>
+                <rect x="230" y="60" width="8" height="8" fill="var(--accent-matcha)"/>
+                <circle cx="210" cy="150" r="3" fill="currentColor" opacity="0.5"/>
+            </svg>`;
+
+        // 13. SHODO 5: HEALTH (Posture and Meditative Aura)
+        const SVG_SHODO_HEALTH = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="120" r="80" stroke="var(--matcha-tint)" stroke-width="10" fill="none"/>
+                <circle cx="100" cy="120" r="50" stroke="var(--matcha-tint)" stroke-width="10" fill="none"/>
+                <path d="M60 170 C 60 150 70 140 80 120 C 85 100 80 70 100 70 C 110 70 120 80 120 90 C 120 110 110 120 110 140 C 110 160 130 165 130 170 Z" fill="currentColor" opacity="0.8"/>
+                <circle cx="100" cy="50" r="15" fill="currentColor" opacity="0.8"/>
+                <path d="M100 85 Q 140 90 150 110" stroke="currentColor" stroke-width="8" stroke-linecap="round" opacity="0.8" fill="none"/>
+                <line x1="150" y1="100" x2="150" y2="150" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                <line x1="130" y1="160" x2="220" y2="160" stroke="var(--accent-clay)" stroke-width="4" stroke-linecap="round"/>
+                <rect x="140" y="150" width="30" height="8" fill="var(--bg-washi)" stroke="currentColor" stroke-width="1"/>
+                <circle cx="100" cy="50" r="25" stroke="var(--accent-matcha)" stroke-width="2" stroke-dasharray="4 4" fill="none"/>
+            </svg>`;
+
+        // 14. SHODO 6: MODERN (Tradition meeting Graphic Design)
+        const SVG_SHODO_MODERN = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="50" y="30" width="200" height="140" fill="var(--bg-card)" stroke="var(--ink-muted)" stroke-width="1" opacity="0.3"/>
+                <line x1="100" y1="30" x2="100" y2="170" stroke="var(--ink-muted)" stroke-width="1" opacity="0.2"/>
+                <line x1="200" y1="30" x2="200" y2="170" stroke="var(--ink-muted)" stroke-width="1" opacity="0.2"/>
+                <line x1="50" y1="100" x2="250" y2="100" stroke="var(--ink-muted)" stroke-width="1" opacity="0.2"/>
+                <path d="M40 20 L 50 20 L 50 30" stroke="var(--accent-clay)" stroke-width="2" fill="none"/>
+                <path d="M260 20 L 250 20 L 250 30" stroke="var(--accent-clay)" stroke-width="2" fill="none"/>
+                <path d="M40 180 L 50 180 L 50 170" stroke="var(--accent-clay)" stroke-width="2" fill="none"/>
+                <path d="M260 180 L 250 180 L 250 170" stroke="var(--accent-clay)" stroke-width="2" fill="none"/>
+                <path d="M30 140 C 80 180 150 40 200 70 C 240 90 270 150 280 160" stroke="currentColor" stroke-width="16" stroke-linecap="round" fill="none"/>
+                <polygon points="180,90 190,115 195,105 205,115 210,110 200,100 210,95" fill="var(--bg-washi)" stroke="var(--accent-matcha)" stroke-width="1.5"/>
+            </svg>`;
+
+
+        /* --- ORIGAMI SVGs --- */
+        // 15. MAIN: ORIGAMI (Geometric Crane & Lotus)
+        const SVG_MAIN_ORIGAMI = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M150 170 Q 110 140 100 160 Q 150 190 200 160 Q 190 140 150 170 Z" fill="var(--clay-tint)"/>
+                <path d="M150 170 Q 130 130 120 150 Q 150 180 180 150 Q 170 130 150 170 Z" fill="var(--accent-clay)" opacity="0.3"/>
+                <polygon points="150,110 60,40 120,130" fill="var(--bg-card)" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <polygon points="150,110 60,40 110,95" fill="var(--matcha-tint)"/>
+                <line x1="60" y1="40" x2="110" y2="95" stroke="currentColor" stroke-width="1"/>
+                <polygon points="150,110 240,40 180,130" fill="currentColor" opacity="0.05" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <polygon points="150,110 240,40 190,95" fill="currentColor" opacity="0.1"/>
+                <line x1="240" y1="40" x2="190" y2="95" stroke="currentColor" stroke-width="1"/>
+                <polygon points="110,95 150,110 190,95 150,150" fill="var(--bg-washi)" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <polygon points="110,95 150,110 150,150" fill="currentColor" opacity="0.1"/>
+                <polygon points="190,95 240,160 150,110" fill="var(--bg-card)" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <line x1="190" y1="95" x2="220" y2="135" stroke="currentColor" stroke-width="1"/>
+                <polygon points="110,95 60,160 150,110" fill="var(--bg-card)" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <polygon points="60,160 40,140 70,135" fill="var(--accent-clay)" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>`;
+
+        // 16. ORIGAMI 1: HISTORY (Traditional Noshi & Mizuhiki Ribbons)
+        const SVG_ORIGAMI_HISTORY = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="80" y="40" width="140" height="120" fill="var(--bg-card)" stroke="currentColor" stroke-width="2" transform="rotate(5 150 100)"/>
+                <polygon points="150,30 220,70 200,160 100,170 70,120" fill="var(--matcha-tint)" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <polygon points="150,30 200,80 150,165 100,80" fill="var(--bg-washi)" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <polygon points="150,30 150,165 100,80" fill="currentColor" opacity="0.05"/>
+                <path d="M60 120 Q 150 60 240 100" stroke="var(--accent-clay)" stroke-width="3" fill="none"/>
+                <path d="M70 140 Q 150 170 230 130" stroke="var(--accent-clay)" stroke-width="3" fill="none"/>
+                <path d="M60 125 Q 150 65 240 105" stroke="var(--accent-matcha)" stroke-width="3" fill="none"/>
+                <path d="M70 145 Q 150 175 230 135" stroke="var(--accent-matcha)" stroke-width="3" fill="none"/>
+                <circle cx="150" cy="115" r="15" stroke="var(--accent-clay)" stroke-width="3" fill="var(--bg-card)"/>
+                <circle cx="160" cy="115" r="15" stroke="var(--accent-matcha)" stroke-width="3" fill="none"/>
+                <circle cx="140" cy="115" r="15" stroke="var(--accent-matcha)" stroke-width="3" fill="none"/>
+            </svg>`;
+
+        // 17. ORIGAMI 2: MODERN (Akira Yoshizawa / Wet Folding Hands)
+        const SVG_ORIGAMI_MODERN = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="150" cy="100" r="70" fill="var(--clay-tint)"/>
+                <path d="M150 90 C 110 50 80 80 145 110 C 110 130 120 160 150 120 C 180 160 190 130 155 110 C 220 80 190 50 150 90 Z" fill="var(--bg-card)" stroke="var(--accent-matcha)" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M150 90 C 110 50 80 80 145 110" fill="currentColor" opacity="0.05"/>
+                <path d="M150 90 C 190 50 220 80 155 110" fill="currentColor" opacity="0.1"/>
+                <line x1="145" y1="110" x2="155" y2="110" stroke="currentColor" stroke-width="2"/>
+                <path d="M30 160 C 60 130 90 120 120 115 C 130 113 135 118 125 125 C 100 140 80 170 50 200" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <path d="M110 120 C 120 125 120 135 105 135" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <path d="M270 160 C 240 130 210 120 180 115 C 170 113 165 118 175 125 C 200 140 220 170 250 200" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <path d="M190 120 C 180 125 180 135 195 135" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <circle cx="150" cy="50" r="3" fill="var(--accent-clay)"/>
+                <circle cx="165" cy="65" r="2" fill="var(--accent-clay)"/>
+                <circle cx="130" cy="70" r="1.5" fill="var(--accent-clay)"/>
+            </svg>`;
+
+        // 18. ORIGAMI 3: MATH (Crease Patterns & Geometry Tools)
+        const SVG_ORIGAMI_MATH = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="80" y="30" width="140" height="140" fill="var(--bg-washi)" stroke="currentColor" stroke-width="2"/>
+                <line x1="80" y1="30" x2="220" y2="170" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6 4"/>
+                <line x1="220" y1="30" x2="80" y2="170" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6 4"/>
+                <line x1="150" y1="30" x2="150" y2="170" stroke="var(--accent-matcha)" stroke-width="1.5" stroke-dasharray="8 4 2 4"/>
+                <line x1="80" y1="100" x2="220" y2="100" stroke="var(--accent-matcha)" stroke-width="1.5" stroke-dasharray="8 4 2 4"/>
+                <polygon points="150,100 220,100 220,170" fill="var(--matcha-tint)"/>
+                <polygon points="80,30 150,30 150,100" fill="var(--clay-tint)"/>
+                <path d="M40 100 A 110 110 0 0 1 260 100 L 240 100 A 90 90 0 0 0 60 100 Z" fill="currentColor" opacity="0.1"/>
+                <line x1="150" y1="100" x2="250" y2="50" stroke="var(--accent-clay)" stroke-width="2"/>
+                <path d="M180 100 A 30 30 0 0 0 176 86" stroke="currentColor" stroke-width="2" fill="none"/>
+                <text x="185" y="95" fill="currentColor" font-size="12" font-family="sans-serif" font-weight="bold">θ</text>
+                <text x="230" y="40" fill="currentColor" font-size="10" font-family="serif" font-style="italic" opacity="0.6">f(x) = x³ - 2</text>
+                <text x="40" y="160" fill="currentColor" font-size="10" font-family="serif" font-style="italic" opacity="0.6">M - V = ±2</text>
+            </svg>`;
+
+        // 19. ORIGAMI 4: TECH (Space / JWST & Miura Fold)
+        const SVG_ORIGAMI_TECH = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M-20 220 Q 150 120 320 220" fill="var(--matcha-tint)"/>
+                <path d="M-20 220 Q 150 120 320 220" stroke="var(--accent-matcha)" stroke-width="2"/>
+                <circle cx="50" cy="40" r="1.5" fill="var(--accent-clay)"/>
+                <circle cx="250" cy="70" r="2.5" fill="var(--ink-muted)"/>
+                <g stroke="currentColor" stroke-width="1.5" fill="var(--bg-card)" stroke-linejoin="round">
+                    <polygon points="150,70 165,80 165,100 150,110 135,100 135,80"/>
+                    <polygon points="150,70 165,80 165,100 150,110 135,100 135,80" fill="currentColor" opacity="0.1"/>
+                    <polygon points="180,50 195,60 195,80 180,90 165,80 165,60"/>
+                    <polygon points="180,90 195,100 195,120 180,130 165,120 165,100"/>
+                    <polygon points="150,110 165,120 165,140 150,150 135,140 135,120"/>
+                    <polygon points="150,110 165,120 165,140 150,150 135,140 135,120" fill="var(--accent-clay)" opacity="0.8"/>
+                    <polygon points="120,90 135,100 135,120 120,130 105,120 105,100"/>
+                    <polygon points="120,50 135,60 135,80 120,90 105,80 105,60"/>
+                </g>
+                <g stroke="var(--accent-matcha)" stroke-width="1.5" stroke-linejoin="round" fill="var(--matcha-tint)">
+                    <polygon points="195,100 230,85 240,115 195,120"/>
+                    <polygon points="230,85 265,70 280,100 240,115"/>
+                    <line x1="205" y1="105" x2="235" y2="95" stroke="var(--accent-matcha)" stroke-width="1"/>
+                </g>
+            </svg>`;
+
+        // 20. ORIGAMI 5: HEALTH (Mind & Therapy)
+        const SVG_ORIGAMI_HEALTH = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="150" cy="90" r="70" stroke="var(--matcha-tint)" stroke-width="20" fill="none"/>
+                <circle cx="150" cy="90" r="45" stroke="var(--clay-tint)" stroke-width="15" fill="none"/>
+                <path d="M100 180 C 100 180 70 170 70 130 C 70 80 110 30 150 30 C 190 30 230 70 230 120 C 230 160 200 180 200 180" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 4" opacity="0.5"/>
+                <circle cx="150" cy="90" r="25" fill="var(--bg-card)" stroke="currentColor" stroke-width="2"/>
+                <polygon points="150,95 135,75 150,85" fill="var(--accent-clay)"/>
+                <polygon points="150,95 165,75 150,85" fill="var(--accent-clay)" opacity="0.7"/>
+                <polygon points="150,95 130,90 150,110" fill="var(--accent-matcha)"/>
+                <polygon points="150,95 170,90 150,110" fill="var(--accent-matcha)" opacity="0.7"/>
+                <polygon points="135,75 150,85 165,75 150,65" fill="currentColor" opacity="0.1" stroke="currentColor" stroke-width="1"/>
+                <line x1="150" y1="50" x2="150" y2="40" stroke="var(--accent-clay)" stroke-width="2" stroke-linecap="round"/>
+                <line x1="185" y1="70" x2="195" y2="60" stroke="var(--accent-matcha)" stroke-width="2" stroke-linecap="round"/>
+                <line x1="115" y1="70" x2="105" y2="60" stroke="var(--accent-matcha)" stroke-width="2" stroke-linecap="round"/>
+            </svg>`;
+
+        // 21. ORIGAMI 6: LEGEND (Senbazuru / 1000 Cranes)
+        const SVG_ORIGAMI_LEGEND = `
+            <svg viewBox="0 0 300 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="150" cy="100" r="60" fill="var(--clay-tint)"/>
+                <circle cx="150" cy="100" r="40" fill="var(--accent-clay)" opacity="0.1"/>
+                <line x1="150" y1="20" x2="150" y2="180" stroke="currentColor" stroke-width="1" opacity="0.5" stroke-dasharray="4 2"/>
+                <line x1="100" y1="40" x2="100" y2="160" stroke="currentColor" stroke-width="1" opacity="0.3" stroke-dasharray="4 2"/>
+                <line x1="200" y1="40" x2="200" y2="160" stroke="currentColor" stroke-width="1" opacity="0.3" stroke-dasharray="4 2"/>
+                <polygon points="150,80 120,60 150,110 180,60" fill="var(--bg-card)" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <polygon points="150,80 120,60 135,95" fill="var(--accent-clay)" opacity="0.9"/>
+                <polygon points="150,80 180,60 165,95" fill="var(--accent-clay)" opacity="0.6"/>
+                <polyline points="135,95 150,120 165,95" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                <polygon points="100,50 80,40 100,70 120,40" fill="var(--bg-card)" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,50 80,40 90,60" fill="var(--accent-matcha)" opacity="0.8"/>
+                <polygon points="100,50 120,40 110,60" fill="var(--accent-matcha)" opacity="0.5"/>
+                <polygon points="200,130 180,120 200,150 220,120" fill="var(--bg-card)" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="200,130 180,120 190,140" fill="var(--accent-matcha)" opacity="0.8"/>
+                <polygon points="200,130 220,120 210,140" fill="var(--accent-matcha)" opacity="0.5"/>
+                <polygon points="150,130 153,140 163,143 153,146 150,156 147,146 137,143 147,140" fill="var(--accent-clay)"/>
+            </svg>`;
+
+        // --------------------------------------------------------
+        // DATA SOURCE
+        // --------------------------------------------------------
         const discoveryData = {
             id: 'root',
             title: 'Discover',
@@ -210,30 +618,78 @@
                     id: 'philosophy',
                     title: 'Philosophy',
                     subtitle: 'The Void and the Imperfect',
-                    image: SVG_VOID,
+                    image: SVG_MAIN_PHILOSOPHY,
                     children: [
                         {
                             id: 'phil-ma',
-                            title: 'Ma (間)',
-                            subtitle: 'The Beauty of Empty Space',
-                            image: SVG_VOID,
+                            title: 'Ma: Meaningful Emptiness',
+                            subtitle: 'The Power of the Pause',
+                            image: SVG_PHIL_MA,
                             content: `
-                                <h2 class="text-3xl font-serif font-bold mb-6">The Power of the Pause</h2>
-                                <p>In many cultures, people try to fill up every empty space they see. But in Japan, there is a powerful concept called <strong>Ma</strong>, which translates to "negative space" or "pause."</p>
-                                <p><em>Ma</em> teaches us that empty space is just as important as the things inside it. Think of the silence between notes in your favorite song—without that silence, the song would just be a wall of noise. In a Japanese painting, the blank white paper is just as beautiful as the dark ink.</p>
-                                <p>By leaving things out, <em>Ma</em> creates a sense of simple and clean beauty. It prevents rooms from feeling cluttered and gives our eyes, and our minds, a peaceful place to rest.</p>
+                                <h2 class="text-3xl font-serif font-bold mb-6">An Emptiness Full of Possibility</h2>
+                                <p>The Japanese concept of <strong>Ma (間)</strong> translates to "gap," "space," "pause," or "interval." Etymologically, the ancient Chinese character originally combined the radical for "door" with "moon," depicting the poetic image of moonlight peeping through the crevice of a doorway.</p>
+                                <p>Unlike Western traditions that often rush to fill empty space, <em>Ma</em> treats negative space as an active, vital component that gives shape and meaning to the whole. In Japanese painting (<em>sumi-e</em>) and calligraphy (<em>shodo</em>), the unpainted white space is carefully balanced against the ink. This space provides "breathing room" for the eye, making the artwork dynamic and aesthetically intriguing.</p>
+                                <p>It has been beautifully described as "the profound silence between the notes that actually creates the music."</p>
+                            `
+                        },
+                        {
+                            id: 'phil-architecture',
+                            title: 'Ma in Space & Action',
+                            subtitle: 'Architecture and the Art of Timing',
+                            image: SVG_PHIL_ARCH,
+                            content: `
+                                <h2 class="text-3xl font-serif font-bold mb-6">Designing the Invisible</h2>
+                                <p>The principle of <em>Ma</em> manifests across every facet of traditional Japanese culture, extending far beyond the page and into the physical world.</p>
+                                <p>In architecture and spatial design, traditional homes feature an <em>engawa</em> (a peaceful transitional space between indoors and outdoors) and the <em>tokonoma</em>, a dedicated alcove used simply to display a single hanging scroll or a solitary flower arrangement. By leaving the rest of the room bare, <em>Ma</em> enhances depth perception and makes limited areas feel expansive and calming.</p>
+                                <p><em>Ma</em> even dictates human action. In the performing arts and the tea ceremony, it dictates the deliberate, mindful pauses between movements. Even in martial arts like karate, <em>Ma</em> defines the critical spatial distance and split-second timing required between two opponents.</p>
                             `
                         },
                         {
                             id: 'phil-wabi',
-                            title: 'Wabi-Sabi (侘寂)',
-                            subtitle: 'Perfectly Imperfect',
-                            image: SVG_BRUSH,
+                            title: 'Wabi-Sabi: Imperfect Beauty',
+                            subtitle: 'The Poetry of Time and Decay',
+                            image: SVG_PHIL_WABI, 
                             content: `
-                                <h2 class="text-3xl font-serif font-bold mb-6">Finding Calm in Imperfection</h2>
-                                <p>We live in a world that constantly tells us to want things that are brand new, shiny, and flawless. <strong>Wabi-Sabi</strong> is a Japanese philosophy that teaches the exact opposite.</p>
-                                <p>It is the practice of finding quiet beauty in things that are old, imperfect, and changing. A great example is a favorite teacup with a small chip in it, a wooden table with scratches from years of family dinners, or a faded, wrinkly autumn leaf resting on the ground.</p>
-                                <p>Instead of trying to keep everything perfect, Wabi-Sabi reminds us to relax. It teaches us to accept that nothing lasts forever, nothing is finished, and nothing is perfect—and that is exactly what makes life so beautiful and special.</p>
+                                <h2 class="text-3xl font-serif font-bold mb-6">The Beauty of the Impermanent</h2>
+                                <p>While <em>Ma</em> governs space and time, <strong>Wabi-Sabi</strong> governs materiality and existence. It is a philosophical appreciation of things that are imperfect, impermanent, and incomplete.</p>
+                                <p>The term is a synthesis of two ideas. <strong>Wabi (侘)</strong> represents the appreciation of simplicity, humility, and the quiet elegance of the unadorned—like choosing a modest, handcrafted ceramic bowl over a flawless, mass-produced factory item. <strong>Sabi (寂)</strong> refers to the "beauty of age." It honors the patina that develops over years of use: the fading of wood, the tarnish of rust, or the subtle crackle in a glaze.</p>
+                                <p>Tethered to the Zen Buddhist concept of <em>mujō</em> (impermanence), it is the quiet acceptance that nothing stays the same, and that fragile, fading things—like withering blossoms—hold the most profound beauty precisely because they vanish.</p>
+                            `
+                        },
+                        {
+                            id: 'phil-arts',
+                            title: 'Philosophy in Practice',
+                            subtitle: 'The Living Rules of Shodo and Origami',
+                            image: SVG_PHIL_ARTS,
+                            content: `
+                                <h2 class="text-3xl font-serif font-bold mb-6">Art Forged by Zen</h2>
+                                <p>Both <em>Ma</em> and <em>Wabi-Sabi</em> dictate the execution of traditional arts like calligraphy (Shodo) and Origami. They are not just ideas, but practical rules for creation.</p>
+                                <p>In Shodo, practitioners embrace Wabi-Sabi through a technique called <em>kasure</em>—dry, scratched brush strokes where the ink naturally runs out on the paper. These are not viewed as errors, but as beautiful, unrepeatable evidence of the artist's humanity. Furthermore, Japanese compositions actively avoid symmetry, viewing it as rigid and stagnant; instead, asymmetrical balance is used to allow the continuous flow of energy through the artwork.</p>
+                                <p>In Origami, the physical space between the folder and the paper, alongside the mindful pauses taken during the folding process, reflect <em>Ma</em>. The folds themselves, particularly in advanced wet-folding techniques, create weathered, organic textures that age beautifully over time, perfectly capturing the essence of <em>sabi</em>.</p>
+                            `
+                        },
+                        {
+                            id: 'phil-design',
+                            title: 'Modern Design & Japandi',
+                            subtitle: 'An Antidote to Visual Clutter',
+                            image: SVG_PHIL_DESIGN,
+                            content: `
+                                <h2 class="text-3xl font-serif font-bold mb-6">The Effortless Luxury of Less</h2>
+                                <p>In today's fast-paced world—which is often obsessed with flawless perfection and constant visual stimulation—the philosophies of <em>Ma</em> and <em>Wabi-Sabi</em> offer a much-needed psychological antidote.</p>
+                                <p>This is highly visible in modern interior design. The deliberate integration of <em>Ma</em>—intentionally leaving walls bare or maintaining clear, open pathways—drastically reduces visual clutter. Psychologically, this lowers stress, regulates the nervous system, and provides a calming sense of "effortless luxury."</p>
+                                <p>Modern aesthetic trends like "Japandi" (a brilliant fusion of Japanese Wabi-Sabi and Scandinavian minimalism) rely entirely on this concept to turn chaotic modern houses into warm, breathing sanctuaries.</p>
+                            `
+                        },
+                        {
+                            id: 'phil-slow-living',
+                            title: 'The Art of Slow Living',
+                            subtitle: 'Finding Inner Calm in the Everyday',
+                            image: SVG_PHIL_SLOW,
+                            content: `
+                                <h2 class="text-3xl font-serif font-bold mb-6">Embracing the Flawed Reality</h2>
+                                <p>Ultimately, <em>Ma</em> and <em>Wabi-Sabi</em> are not just stylistic choices; they are a cohesive worldview that teaches the three fundamental truths of nature: nothing is perfect, nothing is finished, and nothing is forever.</p>
+                                <p>By decorating with natural materials like aged wood, uneven stone, or wrinkled linen, individuals create homes that feel profoundly authentic and lived-in. Embracing these concepts encourages a "slow living" lifestyle.</p>
+                                <p>It asks us to slow down and notice the shadow cast by a paper lamp, the rough texture of a chipped teacup, or the quiet pause in a conversation with a friend. By stripping away the unnecessary and embracing the natural, flawed reality of existence, we can uncover a deep, resonant beauty and a profound sense of inner calm.</p>
                             `
                         }
                     ]
@@ -242,32 +698,81 @@
                     id: 'shodo',
                     title: 'Shodo',
                     subtitle: 'The Way of the Brush',
-                    image: SVG_BRUSH,
+                    image: SVG_MAIN_SHODO,
                     children: [
                         {
                             id: 'shodo-history',
                             title: 'History & Evolution',
-                            subtitle: 'The Story of Shodo',
-                            image: SVG_HISTORY,
+                            subtitle: 'From China to the Japanese Style',
+                            image: SVG_SHODO_HISTORY,
                             content: `
                                 <h2 class="text-3xl font-serif font-bold mb-6">How It All Began</h2>
-                                <p>Japanese calligraphy, or <strong>Shodo</strong>, translates to "the way of writing." It started a long time ago when Chinese characters were brought over to Japan in the 6th century. At first, Japanese writers copied the exact, strict styles of the Chinese masters.</p>
-                                <p>But over time, the Japanese wanted a style of their own. A famous monk named Kūkai traveled to China, studied deeply, and brought back new ideas. Later on, three legendary Japanese artists—known as the "Three Traces"—softened the rigid lines into a flowing, graceful style called <em>Wayo</em>.</p>
-                                <p>Instead of just recording information, writing became a true art form. This created a completely unique Japanese tradition where the brush seems to dance across the paper, capturing the artist's true feelings in every stroke.</p>
+                                <p>The roots of Japanese calligraphy trace back to ancient China, where the basic forms of Chinese characters (kanji) were standardized during the Qin dynasty. It was introduced to Japan around the 6th and 7th centuries alongside Buddhism, primarily used by monks and aristocrats to copy sacred sutras.</p>
+                                <p>At first, Japanese writers strictly copied the rigid, architectural styles of the Chinese masters. But during the Heian period (794–1185), everything changed. The Japanese developed their own alphabet, called <em>kana</em>. Because these new letters were simplified from kanji, they allowed for a much softer, more fluid, and emotionally expressive script known as the <strong>Wayō</strong> style.</p>
+                                <p>This artistic revolution was led by three legendary figures known as the "Three Great Brushes" (which included the famous monk Kukai), and later perfected by the "Three Traces." Over centuries, this flowing style evolved from a tool for monks into a beautiful art form available to everyone.</p>
                             `
                         },
                         {
                             id: 'shodo-tools',
-                            title: 'The Four Treasures',
-                            subtitle: 'The Tools of the Master',
-                            image: SVG_TOOLS,
+                            title: 'Tools & Posture',
+                            subtitle: 'The Four Treasures of the Study',
+                            image: SVG_SHODO_TOOLS,
                             content: `
-                                <h2 class="text-3xl font-serif font-bold mb-6">The Magic of the Tools</h2>
-                                <p>To practice Shodo, you need four special tools, beautifully known as the "Four Treasures of the Study." Calligraphers treat these tools with immense respect.</p>
-                                <p><strong>1. The Brush (Fude):</strong> Usually made of bamboo and soft animal hair. Because it is so flexible, the artist can easily paint thick, powerful lines or thin, delicate ones.</p>
-                                <p><strong>2. The Ink (Sumi):</strong> Traditional ink isn't a liquid in a bottle; it’s a solid black stick made from soot and plant glue.</p>
-                                <p><strong>3. The Inkstone (Suzuri):</strong> This is a carved stone dish. Artists pour a little water into the stone and rub the solid ink stick against it to make liquid ink. This slow, quiet rubbing is a peaceful process that helps the artist relax and clear their mind before writing.</p>
-                                <p><strong>4. The Paper (Washi):</strong> This special handmade Japanese paper is very thin but incredibly strong. It perfectly captures the energy, speed, and emotion of every single brushstroke.</p>
+                                <h2 class="text-3xl font-serif font-bold mb-6">Extensions of the Body</h2>
+                                <p>To practice Shodo, an artist relies on the <strong>Four Treasures of the Study</strong>. These are not just tools; they are considered extensions of the calligrapher's own body.</p>
+                                <p><strong>1. The Brush (Fude):</strong> Made with a bamboo handle and animal hair, a high-quality brush must possess four traits: a sharp tip, neatly aligned hairs, a perfect cone shape, and a springy bounce.</p>
+                                <p><strong>2. The Ink (Sumi):</strong> Traditional ink is a solid black stick made from pine soot and animal glue.</p>
+                                <p><strong>3. The Inkstone (Suzuri):</strong> A flat stone dish. The artist pours a little water and gently rubs the solid ink stick against the stone to create liquid ink. This rhythmic, slow grinding is a deeply meditative ritual that calms the mind before writing begins.</p>
+                                <p><strong>4. The Paper (Washi):</strong> Handmade Japanese mulberry paper that perfectly captures the exact speed and pressure of every stroke.</p>
+                                <p>Posture is just as important as the tools. Practitioners kneel (seiza) or sit with a perfectly straight back. The brush is held completely vertical. Instead of just flicking their wrist, the artist uses the power of their entire core and shoulder to drive the brush across the paper.</p>
+                            `
+                        },
+                        {
+                            id: 'shodo-technique',
+                            title: 'Technique & Styles',
+                            subtitle: 'The Eight Rules of Eternity',
+                            image: SVG_SHODO_TECHNIQUE,
+                            content: `
+                                <h2 class="text-3xl font-serif font-bold mb-6">Mastering the Strokes</h2>
+                                <p>To evaluate a great piece of calligraphy, you must look at three things: the foundational rules of the brush, the momentum and dynamic energy of the lines, and the artistic emotion behind the writing.</p>
+                                <p>Before writing anything complex, a student must master the <strong>Eight Principles of Ei</strong>. "Ei" (永) is the kanji character for "eternity." This single character contains all eight of the fundamental brushstrokes required in Shodo: dots, horizontal lines, vertical lines, sweeps, and sharp flicks.</p>
+                                <p>Once the mechanics are mastered, artists can express themselves in three main styles: <strong>Kaisho</strong> (Block Script), which is highly structured and requires lifting the brush after every stroke; <strong>Gyosho</strong> (Semi-Cursive), a fluid style where strokes playfully connect; and <strong>Sosho</strong> (Cursive or "Grass" Script), an incredibly rapid, abstract style that perfectly captures raw emotion but is often very difficult to read!</p>
+                            `
+                        },
+                        {
+                            id: 'shodo-philosophy',
+                            title: 'The Zen Mindset',
+                            subtitle: 'Handwriting as a Mirror of the Self',
+                            image: SVG_SHODO_PHILOSOPHY,
+                            content: `
+                                <h2 class="text-3xl font-serif font-bold mb-6">A Record of the Spirit</h2>
+                                <p>In Japan, there is a famous saying: <em>"Sho wa hito nari,"</em> which means "handwriting is a mirror of the self." Because dark ink on thin washi paper cannot ever be erased or corrected, every single stroke is a permanent record of the artist's exact mental state at that fraction of a second.</p>
+                                <p>To achieve true mastery, the calligrapher must enter <strong>Mushin</strong> (no-mind). This is a Zen Buddhist concept of mental emptiness where over-thinking stops, allowing the brush to move naturally and without hesitation.</p>
+                                <p>Aesthetically, Shodo embraces <strong>Wabi-Sabi</strong> (the beauty of imperfection). Sometimes, the ink runs dry, creating a scratchy, highly textured brush stroke known as <em>kasure</em>. Rather than throwing the paper away, these imperfections are celebrated as beautiful, unrepeatable evidence of human presence. Shodo also relies heavily on <strong>Ma</strong> (negative space)—the unpainted white paper is considered just as vital and active as the black ink.</p>
+                            `
+                        },
+                        {
+                            id: 'shodo-health',
+                            title: 'Mind & Body',
+                            subtitle: 'The Healing Power of the Brush',
+                            image: SVG_SHODO_HEALTH,
+                            content: `
+                                <h2 class="text-3xl font-serif font-bold mb-6">A Workout for the Brain</h2>
+                                <p>Shodo extends far beyond mere penmanship; it offers profound physical and cognitive benefits. The slow, mindful preparation of grinding the ink, combined with the absolute focus required for each stroke, acts as a powerful form of active meditation. It melts away stress and centers the mind.</p>
+                                <p>Physically, the strict discipline of holding the brush vertically and executing precise, deliberate movements greatly enhances fine motor dexterity and hand-eye coordination. It also forces the left and right sides of the brain to communicate effectively.</p>
+                                <p>Medical studies even suggest that engaging in highly focused, purpose-driven traditional arts like Shodo can act as a "mental workout," helping older adults build cognitive resilience and delay the onset of memory loss and dementia.</p>
+                            `
+                        },
+                        {
+                            id: 'shodo-modern',
+                            title: 'A Living Tradition',
+                            subtitle: 'From Temples to Graphic Design',
+                            image: SVG_SHODO_MODERN,
+                            content: `
+                                <h2 class="text-3xl font-serif font-bold mb-6">Shodo in the Modern World</h2>
+                                <p>Despite existing for over a thousand years, Shodo is not a dead art trapped in a museum—it is a living, breathing part of modern Japanese society.</p>
+                                <p>Every child in Japan is taught the basics of brush handling in elementary school through a practice called <em>shuji</em> (penmanship). This teaches them focus, patience, and the correct structure of characters. As they grow older, many continue exploring its artistic depths as an elective in high school or university.</p>
+                                <p>Today, you will see Shodo everywhere. It is practiced quietly by monks in Zen temples, performed aggressively with giant brushes on massive canvases during school festivals, and utilized worldwide by graphic designers who want to bring a bold, undeniable human energy to modern advertising and digital art.</p>
                             `
                         }
                     ]
@@ -276,42 +781,78 @@
                     id: 'origami',
                     title: 'Origami',
                     subtitle: 'The Geometry of the Fold',
-                    image: SVG_CRANE,
+                    image: SVG_MAIN_ORIGAMI,
                     children: [
                         {
-                            id: 'origami-legend',
-                            title: 'The Paper Crane',
-                            subtitle: 'A Global Symbol of Peace',
-                            image: SVG_CRANE,
+                            id: 'origami-history',
+                            title: 'History & Origins',
+                            subtitle: 'From Sacred Rituals to Global Art',
+                            image: SVG_ORIGAMI_HISTORY,
                             content: `
-                                <h2 class="text-3xl font-serif font-bold mb-6">The Legend of 1,000 Cranes</h2>
-                                <p>In Japanese myths, cranes are magical birds that live for a thousand years and bring good luck. Because of this, the paper crane became the most famous origami shape of all time.</p>
-                                <p>There is an old, beautiful legend: if you have the patience to fold 1,000 paper cranes, you will be granted a single wish.</p>
-                                <p>This story became famous worldwide because of Sadako Sasaki, a brave 12-year-old girl who became very sick from the atomic bomb dropped on Hiroshima. While resting in the hospital, she folded over 1,000 paper cranes, wishing to be healed. Though she sadly passed away, her story touched the hearts of millions. Today, her paper cranes live on as a powerful, global symbol of hope, healing, and peace.</p>
+                                <h2 class="text-3xl font-serif font-bold mb-6">A Paper History</h2>
+                                <p>The word "origami" comes from the Japanese words <em>oru</em> (meaning to fold) and <em>kami</em> (meaning paper). While paper was originally invented in China, it was brought to Japan by Buddhist monks in the 6th century.</p>
+                                <p>At first, handmade paper was incredibly rare and expensive. Because of this, paper folding was reserved strictly for the elite and for religious rituals, like decorating gifts and Shinto weddings. However, during the Edo period (the 1600s), paper became much easier to produce, and origami blossomed into a fun activity for everyone.</p>
+                                <p>In 1797, a major shift happened: the first known origami instruction book, <em>Secret to Folding One Thousand Cranes</em>, was published. This transformed origami from a secret oral tradition into a documented art form shared with the world.</p>
+                            `
+                        },
+                        {
+                            id: 'origami-modern',
+                            title: 'The Modern Master',
+                            subtitle: 'Akira Yoshizawa & The Language of Folds',
+                            image: SVG_ORIGAMI_MODERN, 
+                            content: `
+                                <h2 class="text-3xl font-serif font-bold mb-6">The Father of Modern Origami</h2>
+                                <p>The true father of modern origami is a man named <strong>Akira Yoshizawa</strong>. He transformed the craft from simple paper-folding into a stunning sculptural fine art.</p>
+                                <p>He pioneered a revolutionary technique known as "wet-folding." By slightly dampening thick paper with water, he could create soft curves and incredibly lifelike, rounded models that locked perfectly into their 3D shape once the paper dried.</p>
+                                <p>Yoshizawa also changed how origami is taught across the globe. Alongside other artists, he developed the <em>Yoshizawa-Randlett system</em>—a universal visual language of dots and arrows. Thanks to this system, anyone in the world can understand how to make a "mountain" or "valley" fold without needing to speak the same language.</p>
+                            `
+                        },
+                        {
+                            id: 'origami-math',
+                            title: 'Math & Geometry',
+                            subtitle: 'The Secret Rules of the Fold',
+                            image: SVG_ORIGAMI_MATH,
+                            content: `
+                                <h2 class="text-3xl font-serif font-bold mb-6">Folding by the Numbers</h2>
+                                <p>Modern origami isn't just an art; it is deeply tied to complex mathematics and geometry. The rules of paper folding, known as the <em>Huzita-Justin axioms</em>, define exactly what geometric shapes are possible to construct.</p>
+                                <p>Astoundingly, these origami rules allow paper folders to solve complex algebra and geometry problems that are completely impossible to solve with a classic compass and ruler!</p>
+                                <p>There are also strict mathematical laws that dictate whether a complex origami model can fold flat. For example, <strong>Maekawa's Theorem</strong> states that at any point where creases meet, the difference between the number of "mountain" folds and "valley" folds must always be exactly two.</p>
                             `
                         },
                         {
                             id: 'origami-tech',
-                            title: 'Space & Science',
-                            subtitle: 'From Paper to Outer Space',
-                            image: SVG_SPACE,
+                            title: 'Space & Engineering',
+                            subtitle: 'Solving Massive Problems',
+                            image: SVG_ORIGAMI_TECH,
                             content: `
-                                <h2 class="text-3xl font-serif font-bold mb-6">Origami in the Modern World</h2>
-                                <p>Origami isn't just a fun art project; it is actually advanced math! Today, scientists and engineers use origami folding techniques to solve massive real-world problems.</p>
-                                <p>For example, NASA needs to send giant solar panels into space to power satellites. The problem is, rockets are relatively small. By using mathematical origami patterns, engineers can fold these huge, flat panels into tiny, tight packages. Once the satellite is floating in space, the panels automatically unfold themselves perfectly.</p>
-                                <p>Origami is also saving lives in medicine. Doctors and scientists are creating microscopic origami out of DNA to build tiny delivery systems that can carry medicine directly to sick cells inside the human body.</p>
+                                <h2 class="text-3xl font-serif font-bold mb-6">From Paper to Outer Space</h2>
+                                <p>Because origami has the unique ability to compress huge surfaces into tiny, predictable volumes, it has become a superpower for modern engineers.</p>
+                                <p>In aerospace, NASA uses origami principles to design massive structures that only "bloom" once they reach outer space. Examples include giant foldable solar panels, massive starshades, and the 6.5-meter primary mirror of the James Webb Space Telescope—all of which had to be folded tightly to fit inside a rocket.</p>
+                                <p>At the microscopic level, scientists are using "DNA origami" to fold actual DNA strands into tiny nanoshapes. These tiny packages can encapsulate medicine and deliver it directly to targeted, sick cells in the human body, such as tumors. Biomedical engineers also use origami to create heart stents and tiny surgical grippers!</p>
                             `
                         },
                         {
                             id: 'origami-health',
-                            title: 'Therapy & Mind',
-                            subtitle: 'Folding for Your Health',
-                            image: SVG_MIND,
+                            title: 'Healing & The Mind',
+                            subtitle: 'Folding for Focus and Recovery',
+                            image: SVG_ORIGAMI_HEALTH,
                             content: `
                                 <h2 class="text-3xl font-serif font-bold mb-6">A Workout for the Brain</h2>
-                                <p>Did you know that folding paper is highly beneficial for your mental health? Doctors and psychologists have found that origami has amazing therapeutic benefits for people of all ages.</p>
-                                <p>For children, following the step-by-step folding instructions builds patience, problem-solving skills, and hand-eye coordination. It acts as a fun way to train their growing brains.</p>
-                                <p>For teens and adults, focusing completely on the paper helps melt away stress and anxiety. Because your hands and mind are busy, it acts as a form of meditation that keeps you in the present moment. In Japan, older adults even play origami games to keep their minds sharp and protect their brains against memory loss as they age.</p>
+                                <p>Folding paper is surprisingly beneficial for your brain. In schools, it serves as an exceptional STEAM (Science, Tech, Engineering, Art, and Math) tool that improves spatial visualization and encourages out-of-the-box problem-solving.</p>
+                                <p>Origami is also highly therapeutic. The repetitive, mindful steps force you to stay in the present moment, which lowers stress, reduces anxiety, and promotes emotional regulation. </p>
+                                <p>Because it requires precise coordination of both hands, origami improves fine motor skills and forces the left and right sides of the brain to interact. Because of this, it is frequently used to help stroke patients recover, assist neurodivergent children with motor skills, and provide a mental workout that helps older adults delay the onset of dementia.</p>
+                            `
+                        },
+                        {
+                            id: 'origami-legend',
+                            title: 'The Paper Crane',
+                            subtitle: 'A Global Symbol of Peace',
+                            image: SVG_ORIGAMI_LEGEND,
+                            content: `
+                                <h2 class="text-3xl font-serif font-bold mb-6">The Legend of 1,000 Cranes</h2>
+                                <p>Despite its modern leaps into space and medicine, the cultural heart of origami remains tethered to a beautiful Japanese legend. In Japanese folklore, the crane is a mystical creature that lives for a thousand years.</p>
+                                <p>It is believed that anyone who has the patience to fold one thousand paper cranes (<em>senbazuru</em>) will be granted a single wish.</p>
+                                <p>This legend was made famous worldwide by Sadako Sasaki, a brave twelve-year-old girl who became sick from radiation after surviving the atomic bombing of Hiroshima. She set out to fold a thousand cranes, wishing to recover from her illness. Though she sadly passed away, her incredible resilience inspired the creation of the Children's Peace Monument in Hiroshima. Today, paper cranes are recognized worldwide as powerful symbols of hope, longevity, and global peace.</p>
                             `
                         }
                     ]
@@ -322,7 +863,7 @@
         // --------------------------------------------------------
         // STATE MANAGEMENT & RENDERING LOGIC
         // --------------------------------------------------------
-        let navigationStack = [discoveryData]; // Array to keep track of where we are
+        let navigationStack = [discoveryData]; 
 
         const container = document.getElementById('view-container');
         const headerTitle = document.getElementById('view-title');
@@ -359,24 +900,22 @@
         }
 
         function renderWindows(children) {
-            // Create Grid
             const grid = document.createElement('div');
-            // Adjust columns based on number of items to make it look elegant
             const colClass = children.length === 2 ? 'md:grid-cols-2 max-w-4xl' : 'md:grid-cols-3';
-            grid.className = `grid grid-cols-1 ${colClass} gap-8 mx-auto`;
+            grid.className = `grid grid-cols-1 ${colClass} gap-8 mx-auto pb-12`;
 
             children.forEach((child, index) => {
                 const card = document.createElement('div');
-                card.className = 'window-card h-96 flex flex-col items-center text-center';
+                card.className = `window-card h-96 flex flex-col items-center text-center`;
                 card.onclick = () => navigateTo(child);
 
                 card.innerHTML = `
-                    <div class="window-image-container text-[var(--ink-black)] bg-[var(--bg-light)]">
+                    <div class="window-image-container">
                         ${child.image || ''}
                     </div>
                     <div class="p-8 flex flex-col justify-center flex-grow">
-                        <h3 class="font-serif text-2xl font-bold text-[var(--ink-black)] mb-2">${child.title}</h3>
-                        ${child.subtitle ? `<p class="font-sans text-sm text-[var(--ink-gray)] tracking-wide">${child.subtitle}</p>` : ''}
+                        <h3 class="font-serif text-2xl font-bold text-[var(--ink-main)] mb-2">${child.title}</h3>
+                        ${child.subtitle ? `<p class="font-sans text-sm text-[var(--ink-muted)] tracking-wide">${child.subtitle}</p>` : ''}
                     </div>
                 `;
                 grid.appendChild(card);
@@ -393,15 +932,17 @@
 
         function renderArticle(node) {
             const article = document.createElement('article');
-            article.className = 'article-content bg-white p-12 md:p-20 border border-[var(--border-light)] max-w-4xl mx-auto shadow-sm';
+            article.className = 'article-content p-12 md:p-20 max-w-4xl mx-auto mb-12';
             
             // Add sketchy image to top of article
             const imgDiv = document.createElement('div');
-            imgDiv.className = 'w-full h-64 md:h-80 mx-auto mb-12 flex items-center justify-center text-[var(--imperial-red)] bg-[var(--red-tint)] overflow-hidden rounded border border-[var(--border-light)]';
+            imgDiv.className = 'w-full h-64 md:h-80 mx-auto mb-14 flex items-center justify-center bg-[var(--matcha-tint)] overflow-hidden rounded border border-[var(--border-earth)]';
+            // Force the primary stroke color to Matcha for the article headers
+            imgDiv.style.color = 'var(--accent-matcha)';
             imgDiv.innerHTML = node.image || '';
             
             const contentDiv = document.createElement('div');
-            contentDiv.innerHTML = `<div class="w-12 h-1 bg-[var(--imperial-red)] mb-8"></div>` + node.content;
+            contentDiv.innerHTML = `<div class="w-12 h-[3px] bg-[var(--accent-clay)] mb-8"></div>` + node.content;
 
             article.appendChild(imgDiv);
             article.appendChild(contentDiv);
@@ -418,7 +959,6 @@
         // INTERACTION
         // --------------------------------------------------------
         function navigateTo(node) {
-            // Fade out current content
             gsap.to(container, {
                 opacity: 0, 
                 y: -20,
@@ -426,7 +966,6 @@
                 onComplete: () => {
                     navigationStack.push(node);
                     renderCurrentState();
-                    // Reset container for next animation
                     gsap.set(container, { opacity: 1, y: 0 });
                 }
             });
@@ -461,7 +1000,6 @@
             }
         }
 
-        // Initialize App
         window.addEventListener('DOMContentLoaded', init);
 
     </script>
