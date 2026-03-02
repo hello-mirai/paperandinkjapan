@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CYBER-WASHI | The Neon Tradition</title>
+    <title>CYBER-WASHI | The Four Pillars</title>
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=Noto+Serif+JP:wght@900&display=swap" rel="stylesheet">
@@ -101,8 +101,8 @@
             display: flex;
             flex-direction: column;
             gap: 5px;
-            min-width: 150px;
-            transform: translate(-50%, -50%); /* Center on projected point */
+            min-width: 180px;
+            transform: translate(-50%, -50%);
         }
         .artifact-label:hover {
             background: rgba(255, 0, 85, 0.15);
@@ -115,25 +115,25 @@
         @media (max-width: 768px) {
             .artifact-label {
                 padding: 0.5rem;
-                min-width: 100px;
+                min-width: 140px;
             }
             .artifact-label .text-xl { font-size: 0.8rem; }
             .artifact-label .text-xs { font-size: 0.5rem; }
-            h1 { font-size: 2.5rem; }
+            h1 { font-size: 2.2rem; }
             h2 { font-size: 1.8rem; }
             .story-section { 
                 flex-direction: column; 
-                padding: 5vh 5vw; 
+                padding: 8vh 8vw; 
                 text-align: center;
                 min-height: auto;
             }
             .story-content { 
                 width: 100%; 
-                margin-bottom: 2rem;
+                margin-bottom: 3rem;
             }
             .story-visual-container { 
                 width: 100%; 
-                height: 30vh;
+                height: 35vh;
                 position: relative;
                 top: 0;
             }
@@ -157,11 +157,12 @@
         }
 
         .glitch-text {
-            font-size: 5rem;
+            font-size: clamp(2rem, 10vw, 5rem);
             font-weight: 900;
             color: white;
             position: relative;
             text-shadow: 2px 0 var(--neon-crimson), -2px 0 var(--neon-cyan);
+            text-align: center;
         }
 
         /* --- 3. SCROLLYTELLING ARTICLE --- */
@@ -236,9 +237,9 @@
             z-index: 70;
         }
 
-        h1 { font-size: 5rem; line-height: 0.9; margin-bottom: 2rem; color: #fff; }
-        h2 { font-size: 3rem; margin-bottom: 1.5rem; color: var(--neon-cyan); }
-        p { font-size: 1.2rem; line-height: 1.8; color: var(--washi-muted); margin-bottom: 1.5rem; }
+        h1 { font-size: clamp(2rem, 8vw, 5rem); line-height: 0.9; margin-bottom: 2rem; color: #fff; }
+        h2 { font-size: clamp(1.5rem, 5vw, 3rem); margin-bottom: 1.5rem; color: var(--neon-cyan); }
+        p { font-size: clamp(0.9rem, 2vw, 1.2rem); line-height: 1.8; color: var(--washi-muted); margin-bottom: 1.5rem; }
         strong { color: var(--neon-crimson); }
 
         /* Interactive Grid */
@@ -269,40 +270,40 @@
         <!-- HUD Elements -->
         <div class="hud-element top-10 left-10 hidden sm:block">SYSTEM_ONLINE // PROTOCOL_ZEN</div>
         <div class="hud-element top-10 right-10 hidden sm:block">LOC: [35.6762° N, 139.6503° E]</div>
-        <div class="hud-element bottom-10 left-10">PAPER & INK // VERSION_2.1</div>
+        <div class="hud-element bottom-10 left-10">PAPER & INK // PILLARS_CORE_V2</div>
         
-        <!-- Artifact Labels -->
-        <div class="artifact-label" id="label-ma" onclick="triggerGlitch('ma')">
-            <span class="text-xs opacity-50 font-mono">01_VOID</span>
-            <span class="text-xl font-jp uppercase tracking-widest">MA</span>
+        <!-- Pillar Labels -->
+        <div class="artifact-label" id="label-glitch" onclick="triggerGlitch('glitch')">
+            <span class="text-xs opacity-50 font-mono">01_PHILOSOPHY</span>
+            <span class="text-xl font-jp uppercase tracking-widest">GLITCH PROTOCOL</span>
         </div>
 
-        <div class="artifact-label" id="label-wabisabi" onclick="triggerGlitch('wabisabi')">
-            <span class="text-xs opacity-50 font-mono">02_AESTHETIC</span>
-            <span class="text-xl font-jp uppercase tracking-widest">WABI-SABI</span>
+        <div class="artifact-label" id="label-ink" onclick="triggerGlitch('ink')">
+            <span class="text-xs opacity-50 font-mono">02_MEDIA</span>
+            <span class="text-xl font-jp uppercase tracking-widest">INK-STREAM</span>
         </div>
 
-        <div class="artifact-label" id="label-origami" onclick="triggerGlitch('origami')">
-            <span class="text-xs opacity-50 font-mono">03_GEOMETRY</span>
-            <span class="text-xl font-jp uppercase tracking-widest">ORIGAMI</span>
+        <div class="artifact-label" id="label-geo" onclick="triggerGlitch('geo')">
+            <span class="text-xs opacity-50 font-mono">03_ENGINEERING</span>
+            <span class="text-xl font-jp uppercase tracking-widest">GEO-LOCK</span>
         </div>
 
-        <div class="artifact-label" id="label-shodo" onclick="triggerGlitch('shodo')">
-            <span class="text-xs opacity-50 font-mono">04_INK</span>
-            <span class="text-xl font-jp uppercase tracking-widest">SHODO</span>
+        <div class="artifact-label" id="label-system" onclick="triggerGlitch('system')">
+            <span class="text-xs opacity-50 font-mono">04_IDENTITY</span>
+            <span class="text-xl font-jp uppercase tracking-widest">THE SYSTEM MARK</span>
         </div>
     </div>
 
     <!-- 2. GLITCH TRANSITION -->
     <div id="glitch-overlay">
-        <div class="glitch-text" id="glitch-title">LOADING...</div>
-        <div class="mt-4 font-mono text-xs tracking-[1em] text-[var(--neon-cyan)]">INITIALIZING_DATA_STREAM</div>
+        <div class="glitch-text" id="glitch-title">INITIALIZING...</div>
+        <div class="mt-4 font-mono text-xs tracking-[1em] text-[var(--neon-cyan)] animate-pulse">CONNECTING_TO_HISTORY</div>
     </div>
 
     <!-- 3. SCROLLYTELLING ARTICLE -->
     <div id="article-viewport">
         <button class="cyber-btn" onclick="returnToVoid()">
-            [ ESCAPE_TO_VOID ]
+            [ DISCONNECT ]
         </button>
         
         <div id="article-content" class="relative">
