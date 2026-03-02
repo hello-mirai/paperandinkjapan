@@ -188,9 +188,12 @@
             align-items: center;
             position: relative;
             padding: 4rem 10vw;
+            max-width: 1440px;
+            margin: 0 auto;
         }
         .story-text {
-            width: 50%;
+            width: 45%;
+            max-width: 650px;
             padding-right: 4rem;
             position: relative;
             z-index: 2;
@@ -208,16 +211,16 @@
         .story-visual svg {
             width: 80%;
             height: 80%;
-            max-height: 600px;
+            max-height: 500px;
             color: var(--ink-main);
         }
 
         /* Ink Guide Line */
         #scrolly-guide {
             position: fixed;
-            left: 5vw;
+            left: 3vw;
             top: 0;
-            width: 4px;
+            width: 2px;
             height: 100vh;
             z-index: 1;
         }
@@ -233,43 +236,78 @@
         /* Close Button */
         .close-btn {
             position: fixed;
-            top: 2rem; right: 2rem;
+            top: 1.5rem; right: 1.5rem;
             z-index: 30;
-            background: none;
-            border: none;
+            background: rgba(242, 238, 229, 0.8);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            border: 1px solid var(--border-earth);
             font-family: 'Noto Sans JP', sans-serif;
             text-transform: uppercase;
+            font-size: 0.8rem;
             letter-spacing: 0.1em;
             color: var(--ink-main);
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: all 0.3s ease;
         }
-        .close-btn::after {
-            content: '';
-            position: absolute;
-            bottom: -2px; left: 0;
-            width: 0; height: 1px;
-            background: var(--accent-clay);
-            transition: width 0.3s;
+        .close-btn:hover {
+            background: var(--bg-card);
+            border-color: var(--accent-clay);
         }
-        .close-btn:hover::after { width: 100%; }
 
         /* Typography */
-        h1 { font-size: 5rem; line-height: 1; margin-bottom: 2rem; color: var(--ink-main); }
-        h2 { font-size: 3rem; margin-bottom: 1.5rem; color: var(--ink-main); }
-        p { font-size: 1.1rem; line-height: 2; margin-bottom: 1.5rem; color: var(--ink-muted); }
+        h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 2rem; color: var(--ink-main); }
+        h2 { font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--ink-main); line-height: 1.2; }
+        p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem; color: var(--ink-muted); }
         strong { color: var(--ink-main); font-weight: 500; }
 
         /* Desktop vs Mobile adjustments */
         @media (max-width: 768px) {
-            .story-section { flex-direction: column; padding: 4rem 5vw; }
-            .story-text { width: 100%; padding-right: 0; margin-bottom: 2rem; }
-            .story-visual { width: 100%; position: relative; height: 50vh; }
-            h1 { font-size: 3rem; }
-            .artifact { width: 260px; height: 350px; }
-            #art-origami { top: 35%; }
+            .story-section { 
+                flex-direction: column; 
+                padding: 6rem 1.5rem 2rem; 
+                min-height: auto;
+                text-align: center;
+            }
+            .story-text { 
+                width: 100%; 
+                max-width: none;
+                padding-right: 0; 
+                margin-bottom: 3rem; 
+            }
+            .story-visual { 
+                width: 100%; 
+                position: relative; 
+                height: 40vh; 
+                top: auto;
+                right: auto;
+            }
+            .story-visual svg {
+                max-height: 300px;
+            }
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.8rem; }
+            p { font-size: 1rem; line-height: 1.6; }
+            
+            .artifact { 
+                width: 200px; 
+                height: 280px; 
+                padding: 1rem;
+            }
+            .artifact-title { font-size: 1.4rem; }
+            .artifact-subtitle { font-size: 0.7rem; }
+            .three-container { height: 140px; }
+            
+            #art-philosophy { top: 10%; left: 5%; }
+            #art-origami { top: 40%; left: 50%; }
+            #art-shodo { top: 70%; right: 5%; left: auto; }
+            
+            #scrolly-guide { display: none; }
+            .close-btn { top: 1rem; right: 1rem; font-size: 0.7rem; }
         }
     </style>
 </head>

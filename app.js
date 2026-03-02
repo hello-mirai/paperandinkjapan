@@ -335,17 +335,19 @@ gsap.registerPlugin(ScrollTrigger);
                 });
             });
 
-            // Sticky Visuals
-            const visuals = document.querySelectorAll('.story-visual');
-            visuals.forEach(vis => {
-                ScrollTrigger.create({
-                    trigger: vis.closest('.story-section'),
-                    scroller: "#article-viewport",
-                    start: "top top",
-                    end: "bottom bottom",
-                    pin: vis
+            // Sticky Visuals (Desktop Only)
+            if (window.innerWidth > 768) {
+                const visuals = document.querySelectorAll('.story-visual');
+                visuals.forEach(vis => {
+                    ScrollTrigger.create({
+                        trigger: vis.closest('.story-section'),
+                        scroller: "#article-viewport",
+                        start: "top top",
+                        end: "bottom bottom",
+                        pin: vis
+                    });
                 });
-            });
+            }
 
             // Ink Guide Line down the left
             gsap.fromTo('.guide-path', 
