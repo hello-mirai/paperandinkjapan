@@ -238,7 +238,9 @@ function buildArticle(topic) {
                 </div>
                 <div class="story-visual-container">
                     <div class="w-full h-full flex items-center justify-center opacity-80 scale-150">
-                        ${sec.svg.replace('class=\"anim-path\"', 'class=\"neon-path\"')}
+                        ${sec.svg.split('class="anim-path"').join('class="neon-path"')
+                               .split("class='anim-path'").join('class="neon-path"')
+                               .split('class=\"anim-path\"').join('class="neon-path"')}
                     </div>
                 </div>
             </div>
