@@ -101,21 +101,21 @@ function createArtifact(geometry, color, position, id) {
 }
 
 // 01 Ma: Sparse Sphere (The Void)
-const meshMa = createArtifact(new THREE.SphereGeometry(1, 12, 12), 0x00f2ff, [-4, 2, -6], 'ma');
+const meshMa = createArtifact(new THREE.SphereGeometry(1, 12, 12), 0x00f2ff, [-2, 1.5, -5], 'ma');
 // 02 Wabi-Sabi: Organic Dodecahedron
-const meshWabi = createArtifact(new THREE.DodecahedronGeometry(1, 0), 0xff0055, [-2, -1, -5], 'wabisabi');
+const meshWabi = createArtifact(new THREE.DodecahedronGeometry(1, 0), 0xff0055, [-1.5, -1, -4], 'wabisabi');
 // 03 Origami: Octahedron
-const meshOri = createArtifact(new THREE.OctahedronGeometry(1.2, 0), 0x00f2ff, [2, -2, -5], 'origami');
+const meshOri = createArtifact(new THREE.OctahedronGeometry(1.2, 0), 0x00f2ff, [1.5, -1.5, -5], 'origami');
 // 04 Shodo: Torus Knot
-const meshSho = createArtifact(new THREE.TorusKnotGeometry(0.7, 0.2, 100, 16), 0xbc13fe, [4, 1, -7], 'shodo');
+const meshSho = createArtifact(new THREE.TorusKnotGeometry(0.7, 0.2, 100, 16), 0xbc13fe, [2, 1, -6], 'shodo');
 
-camera.position.z = 6;
+camera.position.z = 7;
 
 const partGeo = new THREE.BufferGeometry();
 const partCount = 1000;
 const posArray = new Float32Array(partCount * 3);
 for(let i=0; i < partCount * 3; i++) {
-    posArray[i] = (Math.random() - 0.5) * 25;
+    posArray[i] = (Math.random() - 0.5) * 30;
 }
 partGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 const partMat = new THREE.PointsMaterial({ size: 0.02, color: 0x00f2ff, transparent: true, opacity: 0.5 });
@@ -139,11 +139,14 @@ function animate() {
             label.style.left = `${x}px`;
             label.style.top = `${y}px`;
             
-            // Auto-hide if off-screen
-            if (x < 0 || x > window.innerWidth || y < 0 || y > window.innerHeight) {
+            // Smoother hide if way off-screen or too close to edges
+            const margin = 100;
+            if (x < -margin || x > window.innerWidth + margin || y < -margin || y > window.innerHeight + margin) {
                 label.style.opacity = '0';
+                label.style.pointerEvents = 'none';
             } else {
                 label.style.opacity = '1';
+                label.style.pointerEvents = 'auto';
             }
         }
     });

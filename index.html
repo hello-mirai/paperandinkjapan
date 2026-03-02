@@ -87,7 +87,7 @@
             opacity: 0.6;
         }
 
-        /* Artifact Overlays */
+        /* Artifact Labels */
         .artifact-label {
             position: absolute;
             padding: 1rem;
@@ -96,18 +96,19 @@
             backdrop-filter: blur(5px);
             pointer-events: auto;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
             z-index: 30;
             display: flex;
             flex-direction: column;
             gap: 5px;
             min-width: 150px;
+            transform: translate(-50%, -50%); /* Center on projected point */
         }
         .artifact-label:hover {
             background: rgba(255, 0, 85, 0.15);
             border-left-width: 5px;
             padding-left: 1.5rem;
-            transform: translateX(10px);
+            transform: translate(-50%, -50%) scale(1.05);
             box-shadow: -10px 0 30px rgba(255, 0, 85, 0.2);
         }
 
