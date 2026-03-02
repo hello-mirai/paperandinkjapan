@@ -1,15 +1,17 @@
 gsap.registerPlugin(ScrollTrigger);
 
 // ==========================================
-// 1. ORIGINAL DATA (Restored for Production)
+// 1. DATA (Split Ma and Wabi-Sabi)
 // ==========================================
 const articleData = {
-  "philosophy": [
+  "ma": [
     {
-      "title": "An Emptiness Full of Possibility",
+      "title": "Ma: An Emptiness Full of Possibility",
       "text": "<p>The Japanese concept of <strong>Ma (間)</strong> translates to 'gap,' 'space,' 'pause,' or 'interval.' Etymologically, the ancient Chinese character originally combined the radical for 'door' with 'moon,' depicting the poetic image of moonlight peeping through the crevice of a doorway.</p><p>Unlike Western traditions that often rush to fill empty space, <em>Ma</em> treats negative space as an active, vital component that gives shape and meaning to the whole.</p>",
       "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"100\" cy=\"100\" r=\"80\" stroke-dasharray=\"4 8\" opacity=\"0.3\"/><circle cx=\"100\" cy=\"100\" r=\"70\" fill=\"rgba(0, 242, 255, 0.1)\"/><path class=\"anim-path\" d=\"M100 20 L 100 180\" stroke=\"#ff0055\" stroke-dasharray=\"200\" stroke-dashoffset=\"200\"/></svg>"
-    },
+    }
+  ],
+  "wabisabi": [
     {
       "title": "Wabi-Sabi: Imperfect Beauty",
       "text": "<p>While <em>Ma</em> governs space and time, <strong>Wabi-Sabi</strong> governs materiality and existence. It is a philosophical appreciation of things that are imperfect, impermanent, and incomplete.</p><p>The aesthetic was perfected in the tea ceremony. Masters rejected opulent imports in favor of rustic, earthy, and asymmetrical Japanese bowls (chawan), transforming tea preparation into an act of profound humility.</p>",
@@ -98,17 +100,22 @@ function createArtifact(geometry, color, position, id) {
     return mesh;
 }
 
-const meshPhil = createArtifact(new THREE.IcosahedronGeometry(1, 1), 0xff0055, [-3, 1, -5], 'philosophy');
-const meshOri = createArtifact(new THREE.OctahedronGeometry(1.2, 0), 0x00f2ff, [0, -1, -4], 'origami');
-const meshSho = createArtifact(new THREE.TorusKnotGeometry(0.7, 0.2, 100, 16), 0xbc13fe, [3, 2, -6], 'shodo');
+// 01 Ma: Sparse Sphere (The Void)
+const meshMa = createArtifact(new THREE.SphereGeometry(1, 12, 12), 0x00f2ff, [-4, 2, -6], 'ma');
+// 02 Wabi-Sabi: Organic Dodecahedron
+const meshWabi = createArtifact(new THREE.DodecahedronGeometry(1, 0), 0xff0055, [-2, -1, -5], 'wabisabi');
+// 03 Origami: Octahedron
+const meshOri = createArtifact(new THREE.OctahedronGeometry(1.2, 0), 0x00f2ff, [2, -2, -5], 'origami');
+// 04 Shodo: Torus Knot
+const meshSho = createArtifact(new THREE.TorusKnotGeometry(0.7, 0.2, 100, 16), 0xbc13fe, [4, 1, -7], 'shodo');
 
-camera.position.z = 5;
+camera.position.z = 6;
 
 const partGeo = new THREE.BufferGeometry();
 const partCount = 1000;
 const posArray = new Float32Array(partCount * 3);
 for(let i=0; i < partCount * 3; i++) {
-    posArray[i] = (Math.random() - 0.5) * 20;
+    posArray[i] = (Math.random() - 0.5) * 25;
 }
 partGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 const partMat = new THREE.PointsMaterial({ size: 0.02, color: 0x00f2ff, transparent: true, opacity: 0.5 });
@@ -131,13 +138,23 @@ function animate() {
         if(label) {
             label.style.left = `${x}px`;
             label.style.top = `${y}px`;
+            
+            // Auto-hide if off-screen
+            if (x < 0 || x > window.innerWidth || y < 0 || y > window.innerHeight) {
+                label.style.opacity = '0';
+            } else {
+                label.style.opacity = '1';
+            }
         }
     });
     particles.rotation.y += 0.001;
     state.mouse.x = THREE.MathUtils.lerp(state.mouse.x, state.targetMouse.x, 0.05);
     state.mouse.y = THREE.MathUtils.lerp(state.mouse.y, state.targetMouse.y, 0.05);
-    camera.position.x = state.mouse.x * 2;
-    camera.position.y = -state.mouse.y * 2;
+    
+    // Adjusted follow for mobile
+    const multiplier = window.innerWidth < 768 ? 1 : 2;
+    camera.position.x = state.mouse.x * multiplier;
+    camera.position.y = -state.mouse.y * multiplier;
     camera.lookAt(0, 0, -5);
     renderer.render(scene, camera);
 }
@@ -153,7 +170,13 @@ window.addEventListener('mousemove', (e) => {
     state.targetMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
     state.targetMouse.y = (e.clientY / window.innerHeight) * 2 - 1;
     const glow = document.getElementById('cursor-glow');
-    glow.style.transform = `translate(${e.clientX - 40}px, ${e.clientY - 40}px)`;
+    if(glow) glow.style.transform = `translate(${e.clientX - 40}px, ${e.clientY - 40}px)`;
+});
+
+// Touch support for camera
+window.addEventListener('touchmove', (e) => {
+    state.targetMouse.x = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
+    state.targetMouse.y = (e.touches[0].clientY / window.innerHeight) * 2 - 1;
 });
 
 // ==========================================
