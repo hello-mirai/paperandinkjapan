@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Paper & Ink: Japan | The Spatial Journey</title>
+    <title>CYBER-WASHI | The Neon Tradition</title>
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=Noto+Serif+JP:wght@900&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- GSAP (Scrollytelling) -->
+    <!-- GSAP (Scrollytelling & Tweening) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     
@@ -20,367 +20,253 @@
 
     <style>
         :root {
-            --bg-washi: #f2eee5;
-            --bg-card: #fbfaf6;
-            --ink-main: #36312d;
-            --ink-muted: #7a7269;
-            --accent-matcha: #6b7a60;
-            --accent-clay: #b56a5c;
-            --border-earth: #d6cfc3;
-            --matcha-tint: rgba(107, 122, 96, 0.1);
-            --clay-tint: rgba(181, 106, 92, 0.1);
+            --bg-obsidian: #050505;
+            --neon-crimson: #ff0055;
+            --neon-cyan: #00f2ff;
+            --neon-purple: #bc13fe;
+            --washi-text: #e0e0e0;
+            --washi-muted: #808080;
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden; /* Handled dynamically */
-            background-color: var(--bg-washi);
-            color: var(--ink-main);
-            font-family: 'Noto Sans JP', sans-serif;
-            overscroll-behavior: none; /* Prevent bounce */
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-obsidian);
+            color: var(--washi-text);
+            font-family: 'Space Grotesk', sans-serif;
+            cursor: crosshair;
         }
 
-        .font-serif { font-family: 'Bodoni Moda', serif; }
+        .font-jp { font-family: 'Noto Serif JP', serif; }
 
-        /* Washi Texture Overlay */
-        body::after {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+        /* Washi Grain Overlay */
+        #washi-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
             pointer-events: none;
             z-index: 9999;
+            mix-blend-mode: overlay;
         }
 
-        /* --- 1. SPATIAL DESK VIEW --- */
-        #desk-viewport {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            overflow: hidden;
-            cursor: grab;
+        /* Scanline Effect */
+        #scanlines {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        /* --- 1. SPATIAL VOID (Overworld) --- */
+        #void-viewport {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: 10;
         }
-        #desk-viewport:active { cursor: grabbing; }
-        
-        #desk-canvas {
-            position: absolute;
-            top: -50vh; left: -50vw;
-            width: 200vw; height: 200vh;
-            background: radial-gradient(circle at center, var(--bg-washi) 0%, #e6e0d4 100%);
-            will-change: transform;
+
+        #void-canvas-3d {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
         }
 
-        /* Ink Background Canvas */
-        #ink-bg-canvas {
+        .hud-element {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            z-index: 20;
             pointer-events: none;
-            opacity: 0.15;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.7rem;
+            color: var(--neon-cyan);
+            opacity: 0.6;
         }
 
-        /* Artifacts on Desk */
-        .artifact {
+        /* Artifact Overlays */
+        .artifact-label {
             position: absolute;
-            width: 300px;
-            height: 400px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-earth);
-            box-shadow: 0 10px 40px rgba(54, 49, 45, 0.05);
+            padding: 1rem;
+            border-left: 2px solid var(--neon-crimson);
+            background: rgba(255, 0, 85, 0.05);
+            backdrop-filter: blur(5px);
+            pointer-events: auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 30;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            padding: 2rem;
-            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
-            transform-origin: center;
+            gap: 5px;
         }
-        .artifact:hover {
-            transform: scale(1.05) translateY(-10px);
-            box-shadow: 0 20px 50px rgba(181, 106, 92, 0.15);
-            border-color: var(--accent-clay);
-        }
-        .artifact-title {
-            font-family: 'Bodoni Moda', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--ink-main);
-            margin-bottom: 0.5rem;
-        }
-        .artifact-subtitle {
-            font-size: 0.85rem;
-            color: var(--ink-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-        .three-container {
-            width: 100%;
-            height: 200px;
-            position: absolute;
-            top: 20px;
+        .artifact-label:hover {
+            background: rgba(255, 0, 85, 0.15);
+            border-left-width: 5px;
+            padding-left: 1.5rem;
+            transform: translateX(10px);
+            box-shadow: -10px 0 30px rgba(255, 0, 85, 0.2);
         }
 
-        /* Placement on virtual desk */
-        #art-philosophy { top: 20%; left: 20%; transform: rotate(-5deg); }
-        #art-philosophy:hover { transform: scale(1.05) translateY(-10px) rotate(-2deg); }
-        
-        #art-origami { top: 40%; left: 50%; transform: translateX(-50%) rotate(2deg); }
-        #art-origami:hover { transform: translateX(-50%) scale(1.05) translateY(-10px) rotate(0deg); }
-        
-        #art-shodo { top: 30%; right: 20%; transform: rotate(4deg); }
-        #art-shodo:hover { transform: scale(1.05) translateY(-10px) rotate(1deg); }
-
-        /* --- 2. GAMIFIED TRANSITION (Paint to Reveal) --- */
-        #wipe-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background-color: transparent;
-            z-index: 50;
-            pointer-events: none;
-            display: flex;
+        /* --- 2. GLITCH TRANSITION --- */
+        #glitch-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: var(--bg-obsidian);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-        }
-        #wipe-canvas {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-        }
-        #wipe-instruction {
-            position: relative;
-            color: var(--bg-washi);
-            font-family: 'Bodoni Moda', serif;
-            font-size: 2rem;
-            font-style: italic;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.5s;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
         }
 
-        /* --- 3. SCROLLYTELLING ARTICLE VIEW --- */
+        .glitch-text {
+            font-size: 5rem;
+            font-weight: 900;
+            color: white;
+            position: relative;
+            text-shadow: 2px 0 var(--neon-crimson), -2px 0 var(--neon-cyan);
+        }
+
+        /* --- 3. SCROLLYTELLING ARTICLE --- */
         #article-viewport {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            overflow-y: auto;
-            overflow-x: hidden;
-            z-index: 20;
-            background: var(--bg-washi);
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            overflow-y: auto; overflow-x: hidden;
+            z-index: 40;
+            background: var(--bg-obsidian);
             display: none;
             opacity: 0;
         }
 
-        /* The MA effect class */
-        .ma-effect {
-            transition: opacity 1.5s ease-in-out;
-        }
-        .is-idle .ma-effect {
-            opacity: 0.1 !important; /* Fades out text when idle */
-        }
-
-        /* Article Layout */
         .story-section {
             min-height: 100vh;
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            padding: 0 10vw;
             position: relative;
-            padding: 4rem 10vw;
-            max-width: 1440px;
-            margin: 0 auto;
         }
-        .story-text {
+
+        .story-content {
             width: 45%;
-            max-width: 650px;
-            padding-right: 4rem;
-            position: relative;
             z-index: 2;
         }
-        .story-visual {
+
+        .story-visual-container {
             width: 50%;
-            height: 100vh;
-            position: absolute;
-            right: 0;
-            top: 0;
+            height: 80vh;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        .story-visual svg {
-            width: 80%;
-            height: 80%;
-            max-height: 500px;
-            color: var(--ink-main);
+            position: sticky;
+            top: 10vh;
         }
 
-        /* Ink Guide Line */
-        #scrolly-guide {
-            position: fixed;
-            left: 3vw;
-            top: 0;
-            width: 2px;
-            height: 100vh;
-            z-index: 1;
-        }
-        .guide-path {
-            stroke: var(--ink-muted);
-            stroke-width: 2;
-            fill: none;
+        .neon-path {
             stroke-dasharray: 1000;
             stroke-dashoffset: 1000;
-            opacity: 0.3;
+            filter: drop-shadow(0 0 8px var(--neon-cyan));
         }
 
         /* Close Button */
-        .close-btn {
+        .cyber-btn {
             position: fixed;
-            top: 1.5rem; right: 1.5rem;
-            z-index: 30;
-            background: rgba(242, 238, 229, 0.8);
-            backdrop-filter: blur(4px);
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            border: 1px solid var(--border-earth);
-            font-family: 'Noto Sans JP', sans-serif;
+            top: 2rem; right: 2rem;
+            z-index: 60;
+            background: transparent;
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 0.8rem 1.5rem;
             text-transform: uppercase;
             font-size: 0.8rem;
             letter-spacing: 0.1em;
-            color: var(--ink-main);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
+            overflow: hidden;
         }
-        .close-btn:hover {
-            background: var(--bg-card);
-            border-color: var(--accent-clay);
+        .cyber-btn::before {
+            content: '';
+            position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: var(--neon-cyan);
+            transition: 0.3s;
+            z-index: -1;
+        }
+        .cyber-btn:hover { color: var(--bg-obsidian); }
+        .cyber-btn:hover::before { left: 0; }
+
+        /* Scroll Progress */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0; width: 0%; height: 4px;
+            background: linear-gradient(90deg, var(--neon-crimson), var(--neon-cyan));
+            z-index: 70;
         }
 
-        /* Typography */
-        h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 2rem; color: var(--ink-main); }
-        h2 { font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--ink-main); line-height: 1.2; }
-        p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem; color: var(--ink-muted); }
-        strong { color: var(--ink-main); font-weight: 500; }
+        h1 { font-size: 5rem; line-height: 0.9; margin-bottom: 2rem; color: #fff; }
+        h2 { font-size: 3rem; margin-bottom: 1.5rem; color: var(--neon-cyan); }
+        p { font-size: 1.2rem; line-height: 1.8; color: var(--washi-muted); margin-bottom: 1.5rem; }
+        strong { color: var(--neon-crimson); }
 
-        /* Desktop vs Mobile adjustments */
-        @media (max-width: 768px) {
-            .story-section { 
-                flex-direction: column; 
-                padding: 6rem 1.5rem 2rem; 
-                min-height: auto;
-                text-align: center;
-            }
-            .story-text { 
-                width: 100%; 
-                max-width: none;
-                padding-right: 0; 
-                margin-bottom: 3rem; 
-            }
-            .story-visual { 
-                width: 100%; 
-                position: relative; 
-                height: 40vh; 
-                top: auto;
-                right: auto;
-            }
-            .story-visual svg {
-                max-height: 300px;
-            }
-            h1 { font-size: 2.5rem; }
-            h2 { font-size: 1.8rem; }
-            p { font-size: 1rem; line-height: 1.6; }
-            
-            .artifact { 
-                width: 200px; 
-                height: 280px; 
-                padding: 1rem;
-            }
-            .artifact-title { font-size: 1.4rem; }
-            .artifact-subtitle { font-size: 0.7rem; }
-            .three-container { height: 140px; }
-            
-            #art-philosophy { top: 10%; left: 5%; }
-            #art-origami { top: 40%; left: 50%; }
-            #art-shodo { top: 70%; right: 5%; left: auto; }
-            
-            #scrolly-guide { display: none; }
-            .close-btn { top: 1rem; right: 1rem; font-size: 0.7rem; }
+        /* Interactive Grid */
+        #grid-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg) translateY(-200px);
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. SPATIAL DESK (Overworld) -->
-    <div id="desk-viewport">
-        <div id="desk-canvas">
-            <!-- Liquid Ink Background -->
-            <canvas id="ink-bg-canvas"></canvas>
-            
-            <!-- Draggable Artifacts -->
-            <div class="artifact" id="art-philosophy" onclick="triggerTransition('philosophy')">
-                <div class="w-full h-48 flex items-center justify-center mb-4 text-[var(--accent-matcha)]">
-                    <svg viewBox="0 0 100 100" width="120" height="120" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="50" cy="50" r="40" stroke-dasharray="4 4" opacity="0.5"/>
-                        <circle cx="50" cy="50" r="35"/>
-                        <path d="M30 50 Q 50 30 70 50" stroke="var(--accent-clay)"/>
-                    </svg>
-                </div>
-                <div class="artifact-title">Ma & Wabi-Sabi</div>
-                <div class="artifact-subtitle">The Void & Imperfection</div>
-            </div>
+    <!-- Overlays -->
+    <div id="washi-overlay"></div>
+    <div id="scanlines"></div>
+    <div id="scroll-progress"></div>
 
-            <div class="artifact" id="art-origami" onclick="triggerTransition('origami')">
-                <!-- 3D WebGL Container -->
-                <div class="three-container" id="three-crane"></div>
-                <div class="artifact-title">Origami</div>
-                <div class="artifact-subtitle">The Geometry of Fold</div>
-            </div>
+    <!-- 1. SPATIAL VOID -->
+    <div id="void-viewport">
+        <canvas id="void-canvas-3d"></canvas>
+        <div id="grid-bg"></div>
 
-            <div class="artifact" id="art-shodo" onclick="triggerTransition('shodo')">
-                <div class="w-full h-48 flex items-center justify-center mb-4 text-[var(--ink-main)]">
-                    <svg viewBox="0 0 100 100" width="120" height="120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
-                        <path d="M20 70 Q 50 20 80 80 T 50 50" opacity="0.2" stroke-width="10"/>
-                        <path d="M30 40 L 70 60 M 50 20 L 50 80" stroke="var(--accent-clay)"/>
-                    </svg>
-                </div>
-                <div class="artifact-title">Shodo</div>
-                <div class="artifact-subtitle">The Way of the Brush</div>
-            </div>
-            
-            <!-- Desk Instructions -->
-            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-center pointer-events-none opacity-50">
-                <p class="font-serif italic text-xl text-[var(--ink-main)] mb-2">Drag to explore the desk</p>
-                <svg class="w-6 h-6 mx-auto animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
-            </div>
+        <!-- HUD Elements -->
+        <div class="hud-element top-10 left-10">SYSTEM_ONLINE // PROTOCOL_ZEN</div>
+        <div class="hud-element top-10 right-10">LOC: [35.6762° N, 139.6503° E]</div>
+        <div class="hud-element bottom-10 left-10">PAPER & INK // VERSION_2.0</div>
+        
+        <!-- Artifact Labels -->
+        <div class="artifact-label" id="label-philosophy" onclick="triggerGlitch('philosophy')">
+            <span class="text-xs opacity-50 font-mono">01_CONCEPT</span>
+            <span class="text-xl font-jp uppercase tracking-widest">MA & WABI-SABI</span>
+        </div>
+
+        <div class="artifact-label" id="label-origami" onclick="triggerGlitch('origami')">
+            <span class="text-xs opacity-50 font-mono">02_GEOMETRY</span>
+            <span class="text-xl font-jp uppercase tracking-widest">ORIGAMI</span>
+        </div>
+
+        <div class="artifact-label" id="label-shodo" onclick="triggerGlitch('shodo')">
+            <span class="text-xs opacity-50 font-mono">03_INK</span>
+            <span class="text-xl font-jp uppercase tracking-widest">SHODO</span>
         </div>
     </div>
 
-    <!-- 2. TRANSITION CANVAS (Paint to Reveal) -->
-    <div id="wipe-overlay">
-        <canvas id="wipe-canvas"></canvas>
-        <div id="wipe-instruction">Swipe to reveal</div>
+    <!-- 2. GLITCH TRANSITION -->
+    <div id="glitch-overlay">
+        <div class="glitch-text" id="glitch-title">LOADING...</div>
+        <div class="mt-4 font-mono text-xs tracking-[1em] text-[var(--neon-cyan)]">INITIALIZING_DATA_STREAM</div>
     </div>
 
-    <!-- 3. SCROLLYTELLING ARTICLE (Deep Dive) -->
+    <!-- 3. SCROLLYTELLING ARTICLE -->
     <div id="article-viewport">
-        <button class="close-btn" onclick="returnToDesk()">
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Return to Desk
+        <button class="cyber-btn" onclick="returnToVoid()">
+            [ ESCAPE_TO_VOID ]
         </button>
         
-        <!-- Ink Scrolly Line -->
-        <svg id="scrolly-guide" viewBox="0 0 10 1000" preserveAspectRatio="none">
-            <path class="guide-path" d="M 5 0 Q 8 250 2 500 T 5 1000"/>
-        </svg>
-
-        <!-- Content injected here via JS -->
-        <div id="article-content"></div>
+        <div id="article-content" class="relative">
+            <!-- Content Injected via JS -->
+        </div>
     </div>
+
+    <!-- Interaction Cursor -->
+    <div id="cursor-glow" class="fixed w-20 h-20 rounded-full pointer-events-none z-[10000] opacity-30" 
+         style="background: radial-gradient(circle, var(--neon-cyan) 0%, transparent 70%); transition: transform 0.1s ease-out;"></div>
 
     <script src="app.js"></script>
 </body>

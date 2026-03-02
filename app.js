@@ -1,386 +1,291 @@
 gsap.registerPlugin(ScrollTrigger);
 
-        // ==========================================
-        // DATA: Content & SVG Generation
-        // ==========================================
-        let articleData = {};
-        fetch('content.json')
-            .then(res => res.json())
-            .then(data => articleData = data)
-            .catch(err => console.error('Error fetching content:', err));
+// ==========================================
+// 1. ORIGINAL DATA (Restored for Production)
+// ==========================================
+const articleData = {
+  "philosophy": [
+    {
+      "title": "An Emptiness Full of Possibility",
+      "text": "<p>The Japanese concept of <strong>Ma (間)</strong> translates to 'gap,' 'space,' 'pause,' or 'interval.' Etymologically, the ancient Chinese character originally combined the radical for 'door' with 'moon,' depicting the poetic image of moonlight peeping through the crevice of a doorway.</p><p>Unlike Western traditions that often rush to fill empty space, <em>Ma</em> treats negative space as an active, vital component that gives shape and meaning to the whole.</p>",
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"100\" cy=\"100\" r=\"80\" stroke-dasharray=\"4 8\" opacity=\"0.3\"/><circle cx=\"100\" cy=\"100\" r=\"70\" fill=\"rgba(0, 242, 255, 0.1)\"/><path class=\"anim-path\" d=\"M100 20 L 100 180\" stroke=\"#ff0055\" stroke-dasharray=\"200\" stroke-dashoffset=\"200\"/></svg>"
+    },
+    {
+      "title": "Wabi-Sabi: Imperfect Beauty",
+      "text": "<p>While <em>Ma</em> governs space and time, <strong>Wabi-Sabi</strong> governs materiality and existence. It is a philosophical appreciation of things that are imperfect, impermanent, and incomplete.</p><p>The aesthetic was perfected in the tea ceremony. Masters rejected opulent imports in favor of rustic, earthy, and asymmetrical Japanese bowls (chawan), transforming tea preparation into an act of profound humility.</p>",
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\"><path d=\"M50 80 C 50 140 80 160 100 160 C 120 160 150 140 150 80 Z\" fill=\"rgba(255, 255, 255, 0.05)\"/><ellipse cx=\"100\" cy=\"80\" rx=\"50\" ry=\"15\" fill=\"rgba(0, 242, 255, 0.1)\"/><path class=\"anim-path\" d=\"M70 90 L 85 120 L 75 140 M 85 120 L 110 130 L 120 155\" stroke=\"#ff0055\" stroke-width=\"4\" stroke-dasharray=\"150\" stroke-dashoffset=\"150\"/></svg>"
+    },
+    {
+      "title": "The Art of Slow Living",
+      "text": "<p>In today's fast-paced world, these philosophies offer a psychological antidote. By decorating with natural materials and embracing empty space, we reduce visual clutter, which lowers stress and regulates the nervous system.</p><p>It teaches the three fundamental truths of nature: nothing is perfect, nothing is finished, and nothing is forever.</p>",
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"100\" cy=\"100\" r=\"50\" fill=\"rgba(188, 19, 254, 0.1)\" stroke=\"none\"/><path class=\"anim-path\" d=\"M60 140 C 40 110 80 80 100 100\" stroke-linecap=\"round\" stroke-dasharray=\"100\" stroke-dashoffset=\"100\"/><path class=\"anim-path\" d=\"M140 140 C 160 110 120 80 100 100\" stroke-linecap=\"round\" stroke-dasharray=\"100\" stroke-dashoffset=\"100\"/></svg>"
+    }
+  ],
+  "shodo": [
+    {
+      "title": "How It All Began",
+      "text": "<p>Japanese calligraphy, or <strong>Shodo</strong>, translates to 'the way of writing.' Introduced from China around the 6th century, early practitioners adhered strictly to rigid, architectural styles.</p><p>During the Heian period, Japan developed its own alphabet (kana), allowing for a much softer, more fluid, and emotionally expressive script known as the <strong>Wayō</strong> style. The brush began to dance.</p>",
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"15\" stroke-linecap=\"round\"><path class=\"anim-path\" d=\"M50 100 Q 100 50 150 100 T 150 150\" stroke-dasharray=\"300\" stroke-dashoffset=\"300\"/><circle cx=\"160\" cy=\"80\" r=\"20\" fill=\"#ff0055\" stroke=\"none\" opacity=\"0.8\"/></svg>"
+    },
+    {
+      "title": "Extensions of the Body",
+      "text": "<p>To practice Shodo, an artist relies on the <strong>Four Treasures of the Study</strong>: the brush, the ink, the inkstone, and the paper.</p><p>The slow, rhythmic grinding of the solid ink stick on the stone is a deeply meditative ritual that calms the mind before writing. The posture is completely vertical, using the power of the core rather than just the wrist.</p>",
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"50\" y=\"50\" width=\"100\" height=\"120\" rx=\"5\" fill=\"rgba(255, 255, 255, 0.05)\"/><path class=\"anim-path\" d=\"M180 20 L 150 160\" stroke-width=\"8\" stroke-linecap=\"round\" stroke-dasharray=\"200\" stroke-dashoffset=\"200\"/><path d=\"M149 160 C 130 170 150 190 155 190 C 160 190 160 170 151 160 Z\" fill=\"currentColor\" stroke=\"none\"/></svg>"
+    },
+    {
+      "title": "A Record of the Spirit",
+      "text": "<p>There is a famous saying: <em>'Sho wa hito nari,'</em> meaning 'handwriting is a mirror of the self.' Because dark ink on thin washi paper cannot ever be erased, every stroke is a permanent record of the artist's mental state at that exact fraction of a second.</p><p>To achieve true mastery, one must enter <strong>Mushin</strong> (no-mind)—allowing the brush to move naturally and without hesitation.</p>",
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\"><circle cx=\"100\" cy=\"100\" r=\"70\" fill=\"rgba(188, 19, 254, 0.1)\" stroke=\"none\"/><path class=\"anim-path\" d=\"M60 40 Q 80 30 100 60 Q 120 120 100 180\" stroke-width=\"20\" stroke-linecap=\"round\" stroke-dasharray=\"200\" stroke-dashoffset=\"200\"/><path d=\"M102 140 Q 105 160 105 185\" stroke-width=\"4\" stroke-linecap=\"round\"/></svg>"
+    }
+  ],
+  "origami": [
+    {
+      "title": "A Paper History",
+      "text": "<p>The word <strong>Origami</strong> comes from <em>oru</em> (to fold) and <em>kami</em> (paper). Originally, paper was so expensive that folding was reserved strictly for the elite and Shinto religious rituals.</p><p>The father of modern origami, Akira Yoshizawa, elevated it to a fine art. He pioneered 'wet-folding'—dampening thick paper to create soft curves and lifelike, sculptural models.</p>",
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" stroke-width=\"2\"><polygon points=\"100,50 160,90 100,150 40,90\" fill=\"rgba(0, 242, 255, 0.1)\"/><path class=\"anim-path\" d=\"M100 50 L 100 150 M 40 90 L 160 90\" stroke-dasharray=\"200\" stroke-dashoffset=\"200\"/></svg>"
+    },
+    {
+      "title": "Folding by the Numbers",
+      "text": "<p>Modern origami is deeply tied to complex mathematics. The <em>Huzita-Justin axioms</em> define the exact geometry of folding, allowing paper folders to solve algebra problems impossible with a classic compass and ruler.</p><p>Today, NASA uses origami principles to fold massive solar panels and space telescopes so they fit inside rockets, blooming only once they reach zero gravity.</p>",
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" stroke-width=\"2\"><g class=\"anim-path\" stroke-dasharray=\"300\" stroke-dashoffset=\"300\"><polygon points=\"100,70 120,90 100,110 80,90\"/><polygon points=\"120,50 140,70 120,90 100,70\"/><polygon points=\"100,110 120,130 100,150 80,130\"/></g></svg>"
+    },
+    {
+      "title": "The Legend of 1,000 Cranes",
+      "text": "<p>In Japanese folklore, the crane is a mystical creature that lives for a thousand years. Folding 1,000 paper cranes (<em>senbazuru</em>) is believed to grant a single wish.</p><p>This was immortalized by Sadako Sasaki, a young girl who folded cranes hoping to recover from radiation sickness after Hiroshima. Today, the crane remains the ultimate global symbol of healing, hope, and peace.</p>",
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" stroke-width=\"2\"><circle cx=\"100\" cy=\"100\" r=\"50\" fill=\"rgba(255, 0, 85, 0.1)\" stroke=\"none\"/><path class=\"anim-path\" d=\"M100 80 L 50 40 L 90 110 L 150 40 Z\" fill=\"rgba(255, 255, 255, 0.05)\" stroke-dasharray=\"300\" stroke-dashoffset=\"300\"/><polygon points=\"100,80 90,110 150,150 110,110\" fill=\"#00f2ff\" stroke=\"none\"/></svg>"
+    }
+  ]
+};
 
-        // ==========================================
-        // 1. SPATIAL DESK (Dragging Logic)
-        // ==========================================
-        const deskViewport = document.getElementById('desk-viewport');
-        const deskCanvas = document.getElementById('desk-canvas');
-        let isDragging = false;
-        let startX, startY;
-        let translateX = 0, translateY = 0;
+const state = {
+    isTransitioning: false,
+    activeTopic: null,
+    mouse: new THREE.Vector2(),
+    targetMouse: new THREE.Vector2()
+};
+
+// ==========================================
+// 2. THREE.JS SPATIAL VOID
+// ==========================================
+const canvas = document.getElementById('void-canvas-3d');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+const ambientLight = new THREE.AmbientLight(0x404040, 2);
+scene.add(ambientLight);
+const pointLight = new THREE.PointLight(0x00f2ff, 2);
+pointLight.position.set(5, 5, 5);
+scene.add(pointLight);
+
+const artifacts = [];
+
+function createArtifact(geometry, color, position, id) {
+    const material = new THREE.MeshStandardMaterial({ 
+        color: color, 
+        wireframe: true, 
+        transparent: true, 
+        opacity: 0.8 
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(...position);
+    mesh.userData.id = id;
+    mesh.userData.initialPos = mesh.position.clone();
+    scene.add(mesh);
+    artifacts.push(mesh);
+    return mesh;
+}
+
+const meshPhil = createArtifact(new THREE.IcosahedronGeometry(1, 1), 0xff0055, [-3, 1, -5], 'philosophy');
+const meshOri = createArtifact(new THREE.OctahedronGeometry(1.2, 0), 0x00f2ff, [0, -1, -4], 'origami');
+const meshSho = createArtifact(new THREE.TorusKnotGeometry(0.7, 0.2, 100, 16), 0xbc13fe, [3, 2, -6], 'shodo');
+
+camera.position.z = 5;
+
+const partGeo = new THREE.BufferGeometry();
+const partCount = 1000;
+const posArray = new Float32Array(partCount * 3);
+for(let i=0; i < partCount * 3; i++) {
+    posArray[i] = (Math.random() - 0.5) * 20;
+}
+partGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+const partMat = new THREE.PointsMaterial({ size: 0.02, color: 0x00f2ff, transparent: true, opacity: 0.5 });
+const particles = new THREE.Points(partGeo, partMat);
+scene.add(particles);
+
+function animate() {
+    requestAnimationFrame(animate);
+    const time = Date.now() * 0.001;
+    artifacts.forEach((m, i) => {
+        m.rotation.y += 0.01;
+        m.rotation.x += 0.005;
+        m.position.y = m.userData.initialPos.y + Math.sin(time + i) * 0.2;
         
-        // Center the desk initially
-        const cx = window.innerWidth / 2;
-        const cy = window.innerHeight / 2;
-        gsap.set(deskCanvas, { x: 0, y: 0 });
-
-        deskViewport.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            startX = e.clientX - translateX;
-            startY = e.clientY - translateY;
-        });
-
-        window.addEventListener('mouseup', () => isDragging = false);
-
-        window.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            // Calculate boundaries so they don't drag off the edge completely
-            let newX = e.clientX - startX;
-            let newY = e.clientY - startY;
-            const boundX = window.innerWidth * 0.4;
-            const boundY = window.innerHeight * 0.4;
-            
-            translateX = Math.max(-boundX, Math.min(boundX, newX));
-            translateY = Math.max(-boundY, Math.min(boundY, newY));
-            
-            gsap.to(deskCanvas, { x: translateX, y: translateY, duration: 0.5, ease: "power2.out" });
-        });
-
-        // Touch support
-        deskViewport.addEventListener('touchstart', (e) => {
-            isDragging = true;
-            startX = e.touches[0].clientX - translateX;
-            startY = e.touches[0].clientY - translateY;
-        });
-        window.addEventListener('touchend', () => isDragging = false);
-        window.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            let newX = e.touches[0].clientX - startX;
-            let newY = e.touches[0].clientY - startY;
-            const boundX = window.innerWidth * 0.4;
-            const boundY = window.innerHeight * 0.4;
-            translateX = Math.max(-boundX, Math.min(boundX, newX));
-            translateY = Math.max(-boundY, Math.min(boundY, newY));
-            gsap.to(deskCanvas, { x: translateX, y: translateY, duration: 0.5, ease: "power2.out" });
-        });
-
-        // ==========================================
-        // 2. INTERACTIVE WEBGL & 3D ELEMENTS
-        // ==========================================
+        const vector = m.position.clone().project(camera);
+        const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
+        const y = (-vector.y * 0.5 + 0.5) * window.innerHeight;
         
-        // A. Liquid Ink Background (Canvas 2D Ripple implementation for performance)
-        const inkCanvas = document.getElementById('ink-bg-canvas');
-        const inkCtx = inkCanvas.getContext('2d');
-        let inkTrails = [];
-        
-        function resizeInkCanvas() {
-            inkCanvas.width = deskCanvas.offsetWidth;
-            inkCanvas.height = deskCanvas.offsetHeight;
+        const label = document.getElementById(`label-${m.userData.id}`);
+        if(label) {
+            label.style.left = `${x}px`;
+            label.style.top = `${y}px`;
         }
-        window.addEventListener('resize', resizeInkCanvas);
-        resizeInkCanvas();
+    });
+    particles.rotation.y += 0.001;
+    state.mouse.x = THREE.MathUtils.lerp(state.mouse.x, state.targetMouse.x, 0.05);
+    state.mouse.y = THREE.MathUtils.lerp(state.mouse.y, state.targetMouse.y, 0.05);
+    camera.position.x = state.mouse.x * 2;
+    camera.position.y = -state.mouse.y * 2;
+    camera.lookAt(0, 0, -5);
+    renderer.render(scene, camera);
+}
+animate();
 
-        deskCanvas.addEventListener('mousemove', (e) => {
-            // Adjust coordinates relative to the panning canvas
-            const rect = deskCanvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            inkTrails.push({ x, y, age: 0, maxAge: 50 + Math.random() * 50 });
-        });
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
-        function animateInk() {
-            inkCtx.clearRect(0, 0, inkCanvas.width, inkCanvas.height);
-            for (let i = inkTrails.length - 1; i >= 0; i--) {
-                let p = inkTrails[i];
-                p.age++;
-                if (p.age > p.maxAge) {
-                    inkTrails.splice(i, 1);
-                    continue;
-                }
-                const progress = p.age / p.maxAge;
-                const radius = 10 + progress * 50;
-                const opacity = 1 - Math.pow(progress, 2);
-                
-                inkCtx.beginPath();
-                inkCtx.arc(p.x, p.y, radius, 0, Math.PI * 2);
-                inkCtx.fillStyle = `rgba(54, 49, 45, ${opacity * 0.2})`; // ink-main color
-                inkCtx.fill();
-            }
-            requestAnimationFrame(animateInk);
-        }
-        animateInk();
+window.addEventListener('mousemove', (e) => {
+    state.targetMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+    state.targetMouse.y = (e.clientY / window.innerHeight) * 2 - 1;
+    const glow = document.getElementById('cursor-glow');
+    glow.style.transform = `translate(${e.clientX - 40}px, ${e.clientY - 40}px)`;
+});
 
-        // B. 3D Origami Crane (Three.js)
-        const threeContainer = document.getElementById('three-crane');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(50, threeContainer.offsetWidth / threeContainer.offsetHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        renderer.setSize(threeContainer.offsetWidth, threeContainer.offsetHeight);
-        threeContainer.appendChild(renderer.domElement);
-
-        // Create a stylized geometric bird
-        const geometry = new THREE.ConeGeometry(1, 2, 4);
-        const material = new THREE.MeshStandardMaterial({ 
-            color: 0xfbfaf6, 
-            roughness: 0.8, 
-            flatShading: true 
-        });
-        const craneMesh = new THREE.Mesh(geometry, material);
-        craneMesh.rotation.x = Math.PI / 2;
-        scene.add(craneMesh);
-
-        // Add Wings
-        const wingGeo = new THREE.BufferGeometry();
-        const vertices = new Float32Array([
-            0, 0, 0,
-            2, 1, -1,
-            0, 0, -2,
-            
-            0, 0, 0,
-            0, 0, -2,
-            -2, 1, -1
-        ]);
-        wingGeo.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-        wingGeo.computeVertexNormals();
-        const wings = new THREE.Mesh(wingGeo, material);
-        craneMesh.add(wings);
-
-        // Lighting
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(5, 5, 5);
-        scene.add(light);
-        const ambientLight = new THREE.AmbientLight(0xb56a5c, 0.5); // Clay tint
-        scene.add(ambientLight);
-
-        camera.position.z = 6;
-
-        // Mouse follow rotation
-        let targetRotationX = 0;
-        let targetRotationY = 0;
-        window.addEventListener('mousemove', (e) => {
-            targetRotationY = (e.clientX / window.innerWidth) * 2 - 1;
-            targetRotationX = (e.clientY / window.innerHeight) * 2 - 1;
-        });
-
-        function animateThree() {
-            requestAnimationFrame(animateThree);
-            craneMesh.rotation.y += 0.01; // Base slow spin
-            craneMesh.rotation.z = THREE.MathUtils.lerp(craneMesh.rotation.z, -targetRotationY * 0.5, 0.1);
-            craneMesh.rotation.x = THREE.MathUtils.lerp(craneMesh.rotation.x, (Math.PI/2) + targetRotationX * 0.5, 0.1);
-            renderer.render(scene, camera);
-        }
-        animateThree();
-
-        // ==========================================
-        // 3. GAMIFIED TRANSITION (Paint to Reveal)
-        // ==========================================
-        const wipeOverlay = document.getElementById('wipe-overlay');
-        const wipeCanvas = document.getElementById('wipe-canvas');
-        const wipeCtx = wipeCanvas.getContext('2d');
-        const instruction = document.getElementById('wipe-instruction');
-        
-        let isTransitioning = false;
-        let activeTopic = null;
-        let wipeProgress = 0;
-
-        function resizeWipeCanvas() {
-            wipeCanvas.width = window.innerWidth;
-            wipeCanvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeWipeCanvas);
-        resizeWipeCanvas();
-
-        function triggerTransition(topic) {
-            if (isTransitioning) return;
-            isTransitioning = true;
-            activeTopic = topic;
-            
-            // Show overlay, fill with Ink
-            wipeOverlay.style.pointerEvents = 'auto';
-            wipeCtx.globalCompositeOperation = 'source-over';
-            wipeCtx.fillStyle = '#111111'; // Deep ink
-            wipeCtx.fillRect(0, 0, wipeCanvas.width, wipeCanvas.height);
-            
-            gsap.to(instruction, { opacity: 1, duration: 1, delay: 0.5 });
-            
-            // Switch to eraser mode
-            wipeCtx.globalCompositeOperation = 'destination-out';
-            wipeCtx.lineWidth = 150;
-            wipeCtx.lineCap = 'round';
-            wipeCtx.lineJoin = 'round';
-            wipeProgress = 0;
-
-            // Pre-build the article content behind the black screen
+// ==========================================
+// 3. GLITCH TRANSITION
+// ==========================================
+function triggerGlitch(topic) {
+    if (state.isTransitioning) return;
+    state.isTransitioning = true;
+    state.activeTopic = topic;
+    const overlay = document.getElementById('glitch-overlay');
+    const title = document.getElementById('glitch-title');
+    title.innerText = topic.toUpperCase();
+    overlay.style.display = 'flex';
+    const tl = gsap.timeline({
+        onComplete: () => {
+            document.getElementById('void-viewport').style.display = 'none';
             buildArticle(topic);
+            showArticle();
         }
-
-        let isWiping = false;
-        let lastX, lastY;
-
-        wipeOverlay.addEventListener('mousedown', (e) => {
-            isWiping = true;
-            lastX = e.clientX; lastY = e.clientY;
-            gsap.to(instruction, { opacity: 0, duration: 0.3 });
+    });
+    tl.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.1 });
+    for(let i=0; i<10; i++) {
+        tl.to(overlay, { 
+            clipPath: () => {
+                const y1 = Math.random() * 100;
+                const y2 = y1 + Math.random() * 20;
+                return `polygon(0 ${y1}%, 100% ${y1}%, 100% ${y2}%, 0 ${y2}%)`;
+            },
+            x: (Math.random() - 0.5) * 50,
+            duration: 0.05 
         });
-        window.addEventListener('mouseup', () => isWiping = false);
+    }
+    tl.to(overlay, { clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)', x: 0, duration: 0.1 });
+}
 
-        wipeOverlay.addEventListener('mousemove', (e) => {
-            if (!isWiping || !isTransitioning) return;
-            
-            wipeCtx.beginPath();
-            wipeCtx.moveTo(lastX, lastY);
-            wipeCtx.lineTo(e.clientX, e.clientY);
-            wipeCtx.stroke();
-            
-            lastX = e.clientX;
-            lastY = e.clientY;
-            
-            wipeProgress++;
-            // If user has scrubbed enough, finish transition automatically
-            if (wipeProgress > 50) {
-                finishTransition();
-            }
-        });
-
-        // Touch wipe
-        wipeOverlay.addEventListener('touchstart', (e) => {
-            isWiping = true;
-            lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
-            gsap.to(instruction, { opacity: 0, duration: 0.3 });
-        });
-        window.addEventListener('touchend', () => isWiping = false);
-        wipeOverlay.addEventListener('touchmove', (e) => {
-            if (!isWiping || !isTransitioning) return;
-            wipeCtx.beginPath();
-            wipeCtx.moveTo(lastX, lastY);
-            wipeCtx.lineTo(e.touches[0].clientX, e.touches[0].clientY);
-            wipeCtx.stroke();
-            lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
-            wipeProgress++;
-            if (wipeProgress > 30) finishTransition(); // Faster on mobile
-        });
-
-        function finishTransition() {
-            isTransitioning = false;
-            wipeOverlay.style.pointerEvents = 'none';
-            gsap.to(wipeCanvas, { 
-                opacity: 0, 
-                duration: 1, 
-                onComplete: () => {
-                    document.getElementById('desk-viewport').style.display = 'none';
-                    wipeCtx.clearRect(0, 0, wipeCanvas.width, wipeCanvas.height);
-                    wipeCanvas.style.opacity = 1;
-                    initScrollAnimations();
-                } 
-            });
-            
-            const articleViewport = document.getElementById('article-viewport');
-            articleViewport.style.display = 'block';
-            gsap.to(articleViewport, { opacity: 1, duration: 0.5 });
-            articleViewport.scrollTop = 0;
+function showArticle() {
+    const viewport = document.getElementById('article-viewport');
+    viewport.style.display = 'block';
+    gsap.to(viewport, { opacity: 1, duration: 0.5 });
+    gsap.to('#glitch-overlay', { 
+        opacity: 0, 
+        duration: 0.5, 
+        delay: 0.5,
+        onComplete: () => {
+            document.getElementById('glitch-overlay').style.display = 'none';
+            state.isTransitioning = false;
+            initScrollAnimations();
         }
+    });
+}
 
-        function returnToDesk() {
-            // Simple fade back
-            const articleViewport = document.getElementById('article-viewport');
-            gsap.to(articleViewport, {
-                opacity: 0,
-                duration: 0.8,
-                onComplete: () => {
-                    articleViewport.style.display = 'none';
-                    document.getElementById('desk-viewport').style.display = 'block';
-                    // Kill ScrollTriggers to prevent memory leaks
-                    ScrollTrigger.getAll().forEach(t => t.kill());
-                }
-            })
+function returnToVoid() {
+    const viewport = document.getElementById('article-viewport');
+    gsap.to(viewport, {
+        opacity: 0,
+        duration: 0.5,
+        onComplete: () => {
+            viewport.style.display = 'none';
+            document.getElementById('void-viewport').style.display = 'block';
+            ScrollTrigger.getAll().forEach(t => t.kill());
+            document.getElementById('scroll-progress').style.width = '0%';
         }
+    });
+}
 
-        // ==========================================
-        // 4. SCROLLYTELLING & "MA" IDLE EFFECT
-        // ==========================================
-        
-        function buildArticle(topic) {
-            const contentDiv = document.getElementById('article-content');
-            contentDiv.innerHTML = '';
-            const sections = articleData[topic];
-            
-            sections.forEach((sec, i) => {
-                const html = `
-                    <div class="story-section">
-                        <div class="story-text ma-effect">
-                            <h2>${sec.title}</h2>
-                            ${sec.text}
-                        </div>
-                        <div class="story-visual">
-                            ${sec.svg}
-                        </div>
+// ==========================================
+// 4. SCROLLYTELLING
+// ==========================================
+function buildArticle(topic) {
+    const contentDiv = document.getElementById('article-content');
+    contentDiv.innerHTML = '';
+    const sections = articleData[topic];
+    if (!sections) return;
+    
+    sections.forEach((sec, i) => {
+        const html = `
+            <div class="story-section" id="section-${i}">
+                <div class="story-content">
+                    <span class="text-[var(--neon-crimson)] font-mono text-sm mb-4 block tracking-tighter">// SEGMENT_${i+1}</span>
+                    <h2 class="font-jp">${sec.title}</h2>
+                    ${sec.text}
+                </div>
+                <div class="story-visual-container">
+                    <div class="w-full h-full flex items-center justify-center opacity-80 scale-150">
+                        ${sec.svg.replace('class=\"anim-path\"', 'class=\"neon-path\"')}
                     </div>
-                `;
-                contentDiv.insertAdjacentHTML('beforeend', html);
-            });
+                </div>
+            </div>
+        `;
+        contentDiv.insertAdjacentHTML('beforeend', html);
+    });
+}
+
+function initScrollAnimations() {
+    gsap.to('#scroll-progress', {
+        width: '100%',
+        ease: 'none',
+        scrollTrigger: {
+            trigger: '#article-content',
+            scroller: '#article-viewport',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.3
         }
+    });
 
-        function initScrollAnimations() {
-            // Animate SVG paths as they come into view
-            const animPaths = document.querySelectorAll('.anim-path');
-            animPaths.forEach(path => {
-                gsap.to(path, {
-                    strokeDashoffset: 0,
-                    scrollTrigger: {
-                        trigger: path.closest('.story-section'),
-                        scroller: "#article-viewport",
-                        start: "top center",
-                        end: "bottom center",
-                        scrub: 1
-                    }
-                });
-            });
-
-            // Sticky Visuals (Desktop Only)
-            if (window.innerWidth > 768) {
-                const visuals = document.querySelectorAll('.story-visual');
-                visuals.forEach(vis => {
-                    ScrollTrigger.create({
-                        trigger: vis.closest('.story-section'),
-                        scroller: "#article-viewport",
-                        start: "top top",
-                        end: "bottom bottom",
-                        pin: vis
-                    });
-                });
+    const paths = document.querySelectorAll('.neon-path');
+    paths.forEach(path => {
+        gsap.to(path, {
+            strokeDashoffset: 0,
+            scrollTrigger: {
+                trigger: path.closest('.story-section'),
+                scroller: '#article-viewport',
+                start: 'top 60%',
+                end: 'bottom 40%',
+                scrub: 1
             }
+        });
+    });
 
-            // Ink Guide Line down the left
-            gsap.fromTo('.guide-path', 
-                { strokeDashoffset: 1000 },
-                { strokeDashoffset: 0, 
-                  scrollTrigger: {
-                      trigger: '#article-content',
-                      scroller: "#article-viewport",
-                      start: "top top",
-                      end: "bottom bottom",
-                      scrub: true
-                  }
-                }
-            );
-        }
-
-        // The "Ma" Effect: Fade UI if idle
-        let idleTimer;
-        const articleViewport = document.getElementById('article-viewport');
-        
-        function resetMaEffect() {
-            articleViewport.classList.remove('is-idle');
-            clearTimeout(idleTimer);
-            idleTimer = setTimeout(() => {
-                // Only trigger if we are inside an article
-                if(articleViewport.style.display === 'block') {
-                    articleViewport.classList.add('is-idle');
-                }
-            }, 3000); // 3 seconds of stillness
-        }
-
-        window.addEventListener('mousemove', resetMaEffect);
-        window.addEventListener('touchmove', resetMaEffect);
-        articleViewport.addEventListener('scroll', resetMaEffect);
-        
-        resetMaEffect(); // Init timer
+    const contents = document.querySelectorAll('.story-content');
+    contents.forEach(content => {
+        gsap.from(content, {
+            x: -50,
+            opacity: 0,
+            filter: 'blur(10px)',
+            scrollTrigger: {
+                trigger: content,
+                scroller: '#article-viewport',
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+    });
+}
