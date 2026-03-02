@@ -102,7 +102,7 @@ const state = {
 };
 
 // ==========================================
-// 2. THREE.JS SPATIAL VOID (Optimized Atomic Layout)
+// 2. THREE.JS SPATIAL VOID (Wide Atomic Layout)
 // ==========================================
 const canvas = document.getElementById('void-canvas-3d');
 const scene = new THREE.Scene();
@@ -126,7 +126,6 @@ function createArtifact(geometry, color, position, id) {
         opacity: 0.8 
     });
     const mesh = new THREE.Mesh(geometry, material);
-    // Elements scaled up by ~20%
     mesh.scale.set(1.2, 1.2, 1.2);
     mesh.position.set(...position);
     mesh.userData.id = id;
@@ -136,17 +135,17 @@ function createArtifact(geometry, color, position, id) {
     return mesh;
 }
 
-// 8 Atomic Topics - Spaced to prevent overlap
-createArtifact(new THREE.DodecahedronGeometry(1, 0), 0xff0055, [-4, 3, -8], 'wabisabi');
-createArtifact(new THREE.IcosahedronGeometry(1, 0), 0xff0055, [-5, -1, -7], 'kintsugi');
-createArtifact(new THREE.TorusKnotGeometry(0.7, 0.25, 100, 16), 0xbc13fe, [-1, 4, -9], 'shodo');
-createArtifact(new THREE.TorusGeometry(1, 0.2, 16, 100), 0x00f2ff, [3, 4, -8], 'ukiyoe');
-createArtifact(new THREE.OctahedronGeometry(1.2, 0), 0x00f2ff, [5, 1, -7], 'origami');
-createArtifact(new THREE.BoxGeometry(1.5, 1.5, 1.5), 0x00f2ff, [4, -3, -8], 'kumiki');
-createArtifact(new THREE.SphereGeometry(1.2, 12, 12), 0xbc13fe, [0, -4, -9], 'ma');
-createArtifact(new THREE.CylinderGeometry(0.7, 0.7, 1.8, 32), 0xff0055, [-3, -4, -8], 'hanko');
+// SIGNIFICANTLY SPREAD OUT to prevent overlap
+createArtifact(new THREE.DodecahedronGeometry(1, 0), 0xff0055, [-7, 4, -12], 'wabisabi');
+createArtifact(new THREE.IcosahedronGeometry(1, 0), 0xff0055, [-8, -2, -10], 'kintsugi');
+createArtifact(new THREE.TorusKnotGeometry(0.7, 0.25, 100, 16), 0xbc13fe, [-2, 6, -14], 'shodo');
+createArtifact(new THREE.TorusGeometry(1, 0.2, 16, 100), 0x00f2ff, [4, 6, -12], 'ukiyoe');
+createArtifact(new THREE.OctahedronGeometry(1.2, 0), 0x00f2ff, [8, 2, -10], 'origami');
+createArtifact(new THREE.BoxGeometry(1.5, 1.5, 1.5), 0x00f2ff, [7, -4, -12], 'kumiki');
+createArtifact(new THREE.SphereGeometry(1.2, 12, 12), 0xbc13fe, [0, -7, -14], 'ma');
+createArtifact(new THREE.CylinderGeometry(0.7, 0.7, 1.8, 32), 0xff0055, [-5, -6, -12], 'hanko');
 
-camera.position.z = 8;
+camera.position.z = 10; // Moved camera back to frame the wider spread
 
 function animate() {
     requestAnimationFrame(animate);
@@ -154,7 +153,7 @@ function animate() {
     artifacts.forEach((m, i) => {
         m.rotation.y += 0.008;
         m.rotation.z += 0.004;
-        m.position.y = m.userData.initialPos.y + Math.sin(time + i) * 0.3;
+        m.position.y = m.userData.initialPos.y + Math.sin(time + i) * 0.4;
         
         const vector = m.position.clone().project(camera);
         const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
@@ -164,7 +163,7 @@ function animate() {
         if(label) {
             label.style.left = `${x}px`;
             label.style.top = `${y}px`;
-            const margin = 100;
+            const margin = 50;
             if (x < -margin || x > window.innerWidth + margin || y < -margin || y > window.innerHeight + margin) {
                 label.style.opacity = '0';
                 label.style.pointerEvents = 'none';
@@ -177,10 +176,10 @@ function animate() {
     
     state.mouse.x = THREE.MathUtils.lerp(state.mouse.x, state.targetMouse.x, 0.05);
     state.mouse.y = THREE.MathUtils.lerp(state.mouse.y, state.targetMouse.y, 0.05);
-    const multiplier = window.innerWidth < 768 ? 1.5 : 3;
+    const multiplier = window.innerWidth < 768 ? 2 : 4;
     camera.position.x = state.mouse.x * multiplier;
     camera.position.y = -state.mouse.y * multiplier;
-    camera.lookAt(0, 0, -6);
+    camera.lookAt(0, 0, -8);
     renderer.render(scene, camera);
 }
 animate();
@@ -274,7 +273,7 @@ function buildArticle(topicKey) {
             <div class="story-content">
                 <span class="text-[var(--neon-crimson)] font-mono text-sm mb-4 block tracking-tighter">// STANDALONE_UNIT: ${topicKey.toUpperCase()}</span>
                 <h2>${sec.title}</h2>
-                ${sec.text}
+                <div class="article-body">${sec.text}</div>
             </div>
             <div class="story-visual-container">
                 <div class="w-full h-full flex items-center justify-center opacity-80 scale-150">
