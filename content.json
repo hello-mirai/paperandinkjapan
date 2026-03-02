@@ -3,51 +3,51 @@
     {
       "title": "An Emptiness Full of Possibility",
       "text": "<p>The Japanese concept of <strong>Ma (間)</strong> translates to 'gap,' 'space,' 'pause,' or 'interval.' Etymologically, the ancient Chinese character originally combined the radical for 'door' with 'moon,' depicting the poetic image of moonlight peeping through the crevice of a doorway.</p><p>Unlike Western traditions that often rush to fill empty space, <em>Ma</em> treats negative space as an active, vital component that gives shape and meaning to the whole.</p>",
-      "svg": "<svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="2"><circle cx="100" cy="100" r="80" stroke-dasharray="4 8" opacity="0.3"/><circle cx="100" cy="100" r="70" fill="var(--matcha-tint)"/><path class="anim-path" d="M100 20 L 100 180" stroke="var(--accent-clay)" stroke-dasharray="200" stroke-dashoffset="200"/></svg>"
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"100\" cy=\"100\" r=\"80\" stroke-dasharray=\"4 8\" opacity=\"0.3\"/><circle cx=\"100\" cy=\"100\" r=\"70\" fill=\"var(--matcha-tint)\"/><path class=\"anim-path\" d=\"M100 20 L 100 180\" stroke=\"var(--accent-clay)\" stroke-dasharray=\"200\" stroke-dashoffset=\"200\"/></svg>"
     },
     {
       "title": "Wabi-Sabi: Imperfect Beauty",
       "text": "<p>While <em>Ma</em> governs space and time, <strong>Wabi-Sabi</strong> governs materiality and existence. It is a philosophical appreciation of things that are imperfect, impermanent, and incomplete.</p><p>The aesthetic was perfected in the tea ceremony. Masters rejected opulent imports in favor of rustic, earthy, and asymmetrical Japanese bowls (chawan), transforming tea preparation into an act of profound humility.</p>",
-      "svg": "<svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M50 80 C 50 140 80 160 100 160 C 120 160 150 140 150 80 Z" fill="var(--bg-card)"/><ellipse cx="100" cy="80" rx="50" ry="15" fill="var(--matcha-tint)"/><path class="anim-path" d="M70 90 L 85 120 L 75 140 M 85 120 L 110 130 L 120 155" stroke="var(--accent-clay)" stroke-width="4" stroke-dasharray="150" stroke-dashoffset="150"/></svg>"
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\"><path d=\"M50 80 C 50 140 80 160 100 160 C 120 160 150 140 150 80 Z\" fill=\"var(--bg-card)\"/><ellipse cx=\"100\" cy=\"80\" rx=\"50\" ry=\"15\" fill=\"var(--matcha-tint)\"/><path class=\"anim-path\" d=\"M70 90 L 85 120 L 75 140 M 85 120 L 110 130 L 120 155\" stroke=\"var(--accent-clay)\" stroke-width=\"4\" stroke-dasharray=\"150\" stroke-dashoffset=\"150\"/></svg>"
     },
     {
       "title": "The Art of Slow Living",
       "text": "<p>In today's fast-paced world, these philosophies offer a psychological antidote. By decorating with natural materials and embracing empty space, we reduce visual clutter, which lowers stress and regulates the nervous system.</p><p>It teaches the three fundamental truths of nature: nothing is perfect, nothing is finished, and nothing is forever.</p>",
-      "svg": "<svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="2"><circle cx="100" cy="100" r="50" fill="var(--clay-tint)"/><path class="anim-path" d="M60 140 C 40 110 80 80 100 100" stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="100"/><path class="anim-path" d="M140 140 C 160 110 120 80 100 100" stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="100"/></svg>"
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"100\" cy=\"100\" r=\"50\" fill=\"var(--clay-tint)\"/><path class=\"anim-path\" d=\"M60 140 C 40 110 80 80 100 100\" stroke-linecap=\"round\" stroke-dasharray=\"100\" stroke-dashoffset=\"100\"/><path class=\"anim-path\" d=\"M140 140 C 160 110 120 80 100 100\" stroke-linecap=\"round\" stroke-dasharray=\"100\" stroke-dashoffset=\"100\"/></svg>"
     }
   ],
   "shodo": [
     {
       "title": "How It All Began",
       "text": "<p>Japanese calligraphy, or <strong>Shodo</strong>, translates to 'the way of writing.' Introduced from China around the 6th century, early practitioners adhered strictly to rigid, architectural styles.</p><p>During the Heian period, Japan developed its own alphabet (kana), allowing for a much softer, more fluid, and emotionally expressive script known as the <strong>Wayō</strong> style. The brush began to dance.</p>",
-      "svg": "<svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"><path class="anim-path" d="M50 100 Q 100 50 150 100 T 150 150" stroke-dasharray="300" stroke-dashoffset="300"/><circle cx="160" cy="80" r="20" fill="var(--accent-clay)" stroke="none" opacity="0.8"/></svg>"
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"15\" stroke-linecap=\"round\"><path class=\"anim-path\" d=\"M50 100 Q 100 50 150 100 T 150 150\" stroke-dasharray=\"300\" stroke-dashoffset=\"300\"/><circle cx=\"160\" cy=\"80\" r=\"20\" fill=\"var(--accent-clay)\" stroke=\"none\" opacity=\"0.8\"/></svg>"
     },
     {
       "title": "Extensions of the Body",
       "text": "<p>To practice Shodo, an artist relies on the <strong>Four Treasures of the Study</strong>: the brush, the ink, the inkstone, and the paper.</p><p>The slow, rhythmic grinding of the solid ink stick on the stone is a deeply meditative ritual that calms the mind before writing. The posture is completely vertical, using the power of the core rather than just the wrist.</p>",
-      "svg": "<svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="2"><rect x="50" y="50" width="100" height="120" rx="5" fill="var(--bg-card)"/><path class="anim-path" d="M180 20 L 150 160" stroke-width="8" stroke-linecap="round" stroke-dasharray="200" stroke-dashoffset="200"/><path d="M149 160 C 130 170 150 190 155 190 C 160 190 160 170 151 160 Z" fill="currentColor" stroke="none"/></svg>"
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"50\" y=\"50\" width=\"100\" height=\"120\" rx=\"5\" fill=\"var(--bg-card)\"/><path class=\"anim-path\" d=\"M180 20 L 150 160\" stroke-width=\"8\" stroke-linecap=\"round\" stroke-dasharray=\"200\" stroke-dashoffset=\"200\"/><path d=\"M149 160 C 130 170 150 190 155 190 C 160 190 160 170 151 160 Z\" fill=\"currentColor\" stroke=\"none\"/></svg>"
     },
     {
       "title": "A Record of the Spirit",
       "text": "<p>There is a famous saying: <em>'Sho wa hito nari,'</em> meaning 'handwriting is a mirror of the self.' Because dark ink on thin washi paper cannot ever be erased, every stroke is a permanent record of the artist's mental state at that exact fraction of a second.</p><p>To achieve true mastery, one must enter <strong>Mushin</strong> (no-mind)—allowing the brush to move naturally and without hesitation.</p>",
-      "svg": "<svg viewBox="0 0 200 200" fill="none" stroke="currentColor"><circle cx="100" cy="100" r="70" fill="var(--matcha-tint)" stroke="none"/><path class="anim-path" d="M60 40 Q 80 30 100 60 Q 120 120 100 180" stroke-width="20" stroke-linecap="round" stroke-dasharray="200" stroke-dashoffset="200"/><path d="M102 140 Q 105 160 105 185" stroke-width="4" stroke-linecap="round"/></svg>"
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\"><circle cx=\"100\" cy=\"100\" r=\"70\" fill=\"var(--matcha-tint)\" stroke=\"none\"/><path class=\"anim-path\" d=\"M60 40 Q 80 30 100 60 Q 120 120 100 180\" stroke-width=\"20\" stroke-linecap=\"round\" stroke-dasharray=\"200\" stroke-dashoffset=\"200\"/><path d=\"M102 140 Q 105 160 105 185\" stroke-width=\"4\" stroke-linecap=\"round\"/></svg>"
     }
   ],
   "origami": [
     {
       "title": "A Paper History",
       "text": "<p>The word <strong>Origami</strong> comes from <em>oru</em> (to fold) and <em>kami</em> (paper). Originally, paper was so expensive that folding was reserved strictly for the elite and Shinto religious rituals.</p><p>The father of modern origami, Akira Yoshizawa, elevated it to a fine art. He pioneered 'wet-folding'—dampening thick paper to create soft curves and lifelike, sculptural models.</p>",
-      "svg": "<svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"><polygon points="100,50 160,90 100,150 40,90" fill="var(--matcha-tint)"/><path class="anim-path" d="M100 50 L 100 150 M 40 90 L 160 90" stroke-dasharray="200" stroke-dashoffset="200"/></svg>"
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" stroke-width=\"2\"><polygon points=\"100,50 160,90 100,150 40,90\" fill=\"var(--matcha-tint)\"/><path class=\"anim-path\" d=\"M100 50 L 100 150 M 40 90 L 160 90\" stroke-dasharray=\"200\" stroke-dashoffset=\"200\"/></svg>"
     },
     {
       "title": "Folding by the Numbers",
       "text": "<p>Modern origami is deeply tied to complex mathematics. The <em>Huzita-Justin axioms</em> define the exact geometry of folding, allowing paper folders to solve algebra problems impossible with a classic compass and ruler.</p><p>Today, NASA uses origami principles to fold massive solar panels and space telescopes so they fit inside rockets, blooming only once they reach zero gravity.</p>",
-      "svg": "<svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"><g class="anim-path" stroke-dasharray="300" stroke-dashoffset="300"><polygon points="100,70 120,90 100,110 80,90"/><polygon points="120,50 140,70 120,90 100,70"/><polygon points="100,110 120,130 100,150 80,130"/></g></svg>"
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" stroke-width=\"2\"><g class=\"anim-path\" stroke-dasharray=\"300\" stroke-dashoffset=\"300\"><polygon points=\"100,70 120,90 100,110 80,90\"/><polygon points=\"120,50 140,70 120,90 100,70\"/><polygon points=\"100,110 120,130 100,150 80,130\"/></g></svg>"
     },
     {
       "title": "The Legend of 1,000 Cranes",
       "text": "<p>In Japanese folklore, the crane is a mystical creature that lives for a thousand years. Folding 1,000 paper cranes (<em>senbazuru</em>) is believed to grant a single wish.</p><p>This was immortalized by Sadako Sasaki, a young girl who folded cranes hoping to recover from radiation sickness after Hiroshima. Today, the crane remains the ultimate global symbol of healing, hope, and peace.</p>",
-      "svg": "<svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"><circle cx="100" cy="100" r="50" fill="var(--clay-tint)" stroke="none"/><path class="anim-path" d="M100 80 L 50 40 L 90 110 L 150 40 Z" fill="var(--bg-card)" stroke-dasharray="300" stroke-dashoffset="300"/><polygon points="100,80 90,110 150,150 110,110" fill="var(--accent-matcha)" stroke="none"/></svg>"
+      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" stroke-width=\"2\"><circle cx=\"100\" cy=\"100\" r=\"50\" fill=\"var(--clay-tint)\" stroke=\"none\"/><path class=\"anim-path\" d=\"M100 80 L 50 40 L 90 110 L 150 40 Z\" fill=\"var(--bg-card)\" stroke-dasharray=\"300\" stroke-dashoffset=\"300\"/><polygon points=\"100,80 90,110 150,150 110,110\" fill=\"var(--accent-matcha)\" stroke=\"none\"/></svg>"
     }
   ]
 }
