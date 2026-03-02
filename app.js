@@ -1,60 +1,55 @@
 gsap.registerPlugin(ScrollTrigger);
 
 // ==========================================
-// 1. DATA (Split Ma and Wabi-Sabi)
+// 1. DATA (High-Engagement/High-Fact Audit)
 // ==========================================
 const articleData = {
   "ma": [
     {
-      "title": "Ma: An Emptiness Full of Possibility",
-      "text": "<p>The Japanese concept of <strong>Ma (間)</strong> translates to 'gap,' 'space,' 'pause,' or 'interval.' Etymologically, the ancient Chinese character originally combined the radical for 'door' with 'moon,' depicting the poetic image of moonlight peeping through the crevice of a doorway.</p><p>Unlike Western traditions that often rush to fill empty space, <em>Ma</em> treats negative space as an active, vital component that gives shape and meaning to the whole.</p>",
+      "title": "Ma: The Architecture of the Void",
+      "text": `
+        <p><strong>History:</strong> While often simplified as 'space,' the concept of <strong>Ma (間)</strong> emerged from ancient Japanese agricultural and architectural timing. The kanji itself originally depicted a door (門) with the sun (日) inside, later replaced by the moon (月), symbolizing the precise moment moonlight leaks through a structural gap. It was first formalized in the 11th-century <em>Sakuteiki</em>, the oldest known treatise on garden design, where the 'space between rocks' was considered more vital than the rocks themselves.</p>
+        <p><strong>Process:</strong> Ma operates on the principle of <em>negative capability</em>. In Japanese Noh theater, Ma is the 'pregnant pause'—the frozen moment of silence between a drum beat and a vocalization. It requires the viewer to mentally complete the action. In architecture, it is the <em>engawa</em> (veranda), a transitional space that is neither inside nor outside, blurring the boundary between the human and natural worlds.</p>
+        <p><strong>Cultural Importance:</strong> In a hyper-dense society like Tokyo, Ma is a psychological survival mechanism. It informs everything from <em>O-mikuji</em> (the spacing of fortunes) to the 'white space' in high-end graphic design, providing a sensory 'reset' that prevents cognitive overload and fosters deep contemplation.</p>
+        <p><strong>Mind-Blowing Fact:</strong> Research in spatial acoustics has shown that the specific 'Ma' intervals in traditional Japanese music (Gagaku) can actually lower a listener's heart rate by triggering a parasympathetic nervous system response—the physical body literally relaxes into the silence.</p>
+      `,
       "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"100\" cy=\"100\" r=\"80\" stroke-dasharray=\"4 8\" opacity=\"0.3\"/><circle cx=\"100\" cy=\"100\" r=\"70\" fill=\"rgba(0, 242, 255, 0.1)\"/><path class=\"anim-path\" d=\"M100 20 L 100 180\" stroke=\"#ff0055\" stroke-dasharray=\"200\" stroke-dashoffset=\"200\"/></svg>"
     }
   ],
   "wabisabi": [
     {
-      "title": "Wabi-Sabi: Imperfect Beauty",
-      "text": "<p>While <em>Ma</em> governs space and time, <strong>Wabi-Sabi</strong> governs materiality and existence. It is a philosophical appreciation of things that are imperfect, impermanent, and incomplete.</p><p>The aesthetic was perfected in the tea ceremony. Masters rejected opulent imports in favor of rustic, earthy, and asymmetrical Japanese bowls (chawan), transforming tea preparation into an act of profound humility.</p>",
+      "title": "Wabi-Sabi: The Elegance of Entropy",
+      "text": `
+        <p><strong>History:</strong> Wabi-Sabi rose to prominence in the 16th century as a radical aesthetic protest. The tea master <strong>Sen no Rikyū</strong> rejected the 'daimyo' preference for opulent, gold-leafed Chinese ceramics, instead championing rough, hand-formed Korean peasant bowls. This culminated in a famous aesthetic clash with the warlord Toyotomi Hideyoshi, who preferred a 'Golden Tea Room'—Rikyū chose a two-mat hut of mud and straw, forever cementing the beauty of the humble.</p>
+        <p><strong>Process:</strong> The aesthetic is governed by three fundamental truths: nothing is perfect, nothing is finished, and nothing is forever. It is physically manifested through <em>Kintsugi</em>—the process of repairing broken pottery with lacquer mixed with powdered gold. Rather than hiding the 'scar,' the repair highlights the object's history, making it more valuable because of its fracture, not despite it.</p>
+        <p><strong>Cultural Importance:</strong> Wabi-Sabi acts as an ethical counterweight to modern consumerism and 'planned obsolescence.' By finding beauty in the aged, the weathered, and the patinated, it encourages a lifestyle of <em>Mottainai</em> (regret over waste) and a profound respect for the life-cycle of all materials.</p>
+        <p><strong>Mind-Blowing Fact:</strong> The legendary 'Wabi' aesthetic was so influential that it partially inspired Steve Jobs' design philosophy for the early Apple products—specifically the idea that the back of a device (which few people see) should be as meticulously designed as the front, reflecting a hidden, 'incomplete' integrity.</p>
+      `,
       "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\"><path d=\"M50 80 C 50 140 80 160 100 160 C 120 160 150 140 150 80 Z\" fill=\"rgba(255, 255, 255, 0.05)\"/><ellipse cx=\"100\" cy=\"80\" rx=\"50\" ry=\"15\" fill=\"rgba(0, 242, 255, 0.1)\"/><path class=\"anim-path\" d=\"M70 90 L 85 120 L 75 140 M 85 120 L 110 130 L 120 155\" stroke=\"#ff0055\" stroke-width=\"4\" stroke-dasharray=\"150\" stroke-dashoffset=\"150\"/></svg>"
-    },
-    {
-      "title": "The Art of Slow Living",
-      "text": "<p>In today's fast-paced world, these philosophies offer a psychological antidote. By decorating with natural materials and embracing empty space, we reduce visual clutter, which lowers stress and regulates the nervous system.</p><p>It teaches the three fundamental truths of nature: nothing is perfect, nothing is finished, and nothing is forever.</p>",
-      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"100\" cy=\"100\" r=\"50\" fill=\"rgba(188, 19, 254, 0.1)\" stroke=\"none\"/><path class=\"anim-path\" d=\"M60 140 C 40 110 80 80 100 100\" stroke-linecap=\"round\" stroke-dasharray=\"100\" stroke-dashoffset=\"100\"/><path class=\"anim-path\" d=\"M140 140 C 160 110 120 80 100 100\" stroke-linecap=\"round\" stroke-dasharray=\"100\" stroke-dashoffset=\"100\"/></svg>"
     }
   ],
   "shodo": [
     {
-      "title": "How It All Began",
-      "text": "<p>Japanese calligraphy, or <strong>Shodo</strong>, translates to 'the way of writing.' Introduced from China around the 6th century, early practitioners adhered strictly to rigid, architectural styles.</p><p>During the Heian period, Japan developed its own alphabet (kana), allowing for a much softer, more fluid, and emotionally expressive script known as the <strong>Wayō</strong> style. The brush began to dance.</p>",
+      "title": "Shodo: The Kinetic Mirror",
+      "text": `
+        <p><strong>History:</strong> Japanese calligraphy, or <strong>Shodo</strong>, arrived via China in the 6th century, but it was the 9th-century monk <strong>Kūkai</strong> (known as one of the 'Three Great Brushes') who revolutionized it. He adapted Chinese characters into <em>Hiragana</em>, a phonetic script with flowing, cursive lines that allowed for a softer, uniquely Japanese emotional expression known as <em>Wayō</em>.</p>
+        <p><strong>Process:</strong> Shodo is a high-stakes performance of 'The Four Treasures': the brush (fude), the ink stick (sumi), the inkstone (suzuri), and the paper (washi). The artist must grind the solid ink stick into water on the stone—a meditative act that can take 15 minutes to reach the perfect viscosity. Once the brush touches the paper, there is no correction. The ink's carbon-based particles bond instantly with the fibers of the washi.</p>
+        <p><strong>Cultural Importance:</strong> In the Edo period, calligraphy was a mandatory skill for the Samurai class, viewed as a physical manifestation of one's discipline and <em>Ki</em> (life energy). Today, it survives in high-school 'Shodo Performance' competitions, where teams of students dance while painting massive characters on 10-meter-wide scrolls using giant 5kg brushes.</p>
+        <p><strong>Mind-Blowing Fact:</strong> Authentic <em>Sumi</em> ink is technically edible. It is traditionally made from the soot of burnt pine trees or vegetable oils mixed with animal hide glue—some master-grade ink sticks are aged for over 50 years to improve their depth of blackness and luster.</p>
+      `,
       "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"15\" stroke-linecap=\"round\"><path class=\"anim-path\" d=\"M50 100 Q 100 50 150 100 T 150 150\" stroke-dasharray=\"300\" stroke-dashoffset=\"300\"/><circle cx=\"160\" cy=\"80\" r=\"20\" fill=\"#ff0055\" stroke=\"none\" opacity=\"0.8\"/></svg>"
-    },
-    {
-      "title": "Extensions of the Body",
-      "text": "<p>To practice Shodo, an artist relies on the <strong>Four Treasures of the Study</strong>: the brush, the ink, the inkstone, and the paper.</p><p>The slow, rhythmic grinding of the solid ink stick on the stone is a deeply meditative ritual that calms the mind before writing. The posture is completely vertical, using the power of the core rather than just the wrist.</p>",
-      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"50\" y=\"50\" width=\"100\" height=\"120\" rx=\"5\" fill=\"rgba(255, 255, 255, 0.05)\"/><path class=\"anim-path\" d=\"M180 20 L 150 160\" stroke-width=\"8\" stroke-linecap=\"round\" stroke-dasharray=\"200\" stroke-dashoffset=\"200\"/><path d=\"M149 160 C 130 170 150 190 155 190 C 160 190 160 170 151 160 Z\" fill=\"currentColor\" stroke=\"none\"/></svg>"
-    },
-    {
-      "title": "A Record of the Spirit",
-      "text": "<p>There is a famous saying: <em>'Sho wa hito nari,'</em> meaning 'handwriting is a mirror of the self.' Because dark ink on thin washi paper cannot ever be erased, every stroke is a permanent record of the artist's mental state at that exact fraction of a second.</p><p>To achieve true mastery, one must enter <strong>Mushin</strong> (no-mind)—allowing the brush to move naturally and without hesitation.</p>",
-      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\"><circle cx=\"100\" cy=\"100\" r=\"70\" fill=\"rgba(188, 19, 254, 0.1)\" stroke=\"none\"/><path class=\"anim-path\" d=\"M60 40 Q 80 30 100 60 Q 120 120 100 180\" stroke-width=\"20\" stroke-linecap=\"round\" stroke-dasharray=\"200\" stroke-dashoffset=\"200\"/><path d=\"M102 140 Q 105 160 105 185\" stroke-width=\"4\" stroke-linecap=\"round\"/></svg>"
     }
   ],
   "origami": [
     {
-      "title": "A Paper History",
-      "text": "<p>The word <strong>Origami</strong> comes from <em>oru</em> (to fold) and <em>kami</em> (paper). Originally, paper was so expensive that folding was reserved strictly for the elite and Shinto religious rituals.</p><p>The father of modern origami, Akira Yoshizawa, elevated it to a fine art. He pioneered 'wet-folding'—dampening thick paper to create soft curves and lifelike, sculptural models.</p>",
+      "title": "Origami: Folding the Future",
+      "text": `
+        <p><strong>History:</strong> Long before it was a child's hobby, <strong>Origami</strong> (oru 'fold' + kami 'paper') was a sacred Shinto ritual. In the Heian period, <em>Noshi</em>—folded paper strips accompanying gifts—were used as complex social markers. The first instructional book, <em>Hiden Senbazuru Orikata</em> (1797), revealed the secrets of folding interconnected cranes, marking the transition from ceremonial to recreational art.</p>
+        <p><strong>Process:</strong> Modern 'Technical Origami' utilizes the <em>Kawasaki Theorem</em> and <em>Huzita-Justin axioms</em> to determine foldability. It has moved from purely linear folds to 3D 'wet-folding,' a technique pioneered by Akira Yoshizawa where paper is dampened to allow for sculptural, organic curves that maintain their shape after drying.</p>
+        <p><strong>Cultural Importance:</strong> Origami is the bridge between art and advanced engineering. Its principles are used to design heart stents that travel through arteries and deploy in the heart, as well as deployable air-bags in vehicles. It teaches a fundamental lesson in <em>spatial efficiency</em>: how to pack a massive 2D surface into a compact 3D volume.</p>
+        <p><strong>Mind-Blowing Fact:</strong> NASA engineers use the 'Miura-ori' fold—a specific origami pattern found in the way leaves unfold in spring—to pack massive solar arrays into tiny rockets. Once in space, a single pull allows the entire array to bloom open in seconds without a single mechanical motor.</p>
+      `,
       "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" stroke-width=\"2\"><polygon points=\"100,50 160,90 100,150 40,90\" fill=\"rgba(0, 242, 255, 0.1)\"/><path class=\"anim-path\" d=\"M100 50 L 100 150 M 40 90 L 160 90\" stroke-dasharray=\"200\" stroke-dashoffset=\"200\"/></svg>"
-    },
-    {
-      "title": "Folding by the Numbers",
-      "text": "<p>Modern origami is deeply tied to complex mathematics. The <em>Huzita-Justin axioms</em> define the exact geometry of folding, allowing paper folders to solve algebra problems impossible with a classic compass and ruler.</p><p>Today, NASA uses origami principles to fold massive solar panels and space telescopes so they fit inside rockets, blooming only once they reach zero gravity.</p>",
-      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" stroke-width=\"2\"><g class=\"anim-path\" stroke-dasharray=\"300\" stroke-dashoffset=\"300\"><polygon points=\"100,70 120,90 100,110 80,90\"/><polygon points=\"120,50 140,70 120,90 100,70\"/><polygon points=\"100,110 120,130 100,150 80,130\"/></g></svg>"
-    },
-    {
-      "title": "The Legend of 1,000 Cranes",
-      "text": "<p>In Japanese folklore, the crane is a mystical creature that lives for a thousand years. Folding 1,000 paper cranes (<em>senbazuru</em>) is believed to grant a single wish.</p><p>This was immortalized by Sadako Sasaki, a young girl who folded cranes hoping to recover from radiation sickness after Hiroshima. Today, the crane remains the ultimate global symbol of healing, hope, and peace.</p>",
-      "svg": "<svg viewBox=\"0 0 200 200\" fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" stroke-width=\"2\"><circle cx=\"100\" cy=\"100\" r=\"50\" fill=\"rgba(255, 0, 85, 0.1)\" stroke=\"none\"/><path class=\"anim-path\" d=\"M100 80 L 50 40 L 90 110 L 150 40 Z\" fill=\"rgba(255, 255, 255, 0.05)\" stroke-dasharray=\"300\" stroke-dashoffset=\"300\"/><polygon points=\"100,80 90,110 150,150 110,110\" fill=\"#00f2ff\" stroke=\"none\"/></svg>"
     }
   ]
 };
@@ -139,7 +134,6 @@ function animate() {
             label.style.left = `${x}px`;
             label.style.top = `${y}px`;
             
-            // Smoother hide if way off-screen or too close to edges
             const margin = 100;
             if (x < -margin || x > window.innerWidth + margin || y < -margin || y > window.innerHeight + margin) {
                 label.style.opacity = '0';
@@ -153,8 +147,6 @@ function animate() {
     particles.rotation.y += 0.001;
     state.mouse.x = THREE.MathUtils.lerp(state.mouse.x, state.targetMouse.x, 0.05);
     state.mouse.y = THREE.MathUtils.lerp(state.mouse.y, state.targetMouse.y, 0.05);
-    
-    // Adjusted follow for mobile
     const multiplier = window.innerWidth < 768 ? 1 : 2;
     camera.position.x = state.mouse.x * multiplier;
     camera.position.y = -state.mouse.y * multiplier;
@@ -176,15 +168,11 @@ window.addEventListener('mousemove', (e) => {
     if(glow) glow.style.transform = `translate(${e.clientX - 40}px, ${e.clientY - 40}px)`;
 });
 
-// Touch support for camera
 window.addEventListener('touchmove', (e) => {
     state.targetMouse.x = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
     state.targetMouse.y = (e.touches[0].clientY / window.innerHeight) * 2 - 1;
 });
 
-// ==========================================
-// 3. GLITCH TRANSITION
-// ==========================================
 function triggerGlitch(topic) {
     if (state.isTransitioning) return;
     state.isTransitioning = true;
@@ -245,9 +233,6 @@ function returnToVoid() {
     });
 }
 
-// ==========================================
-// 4. SCROLLYTELLING
-// ==========================================
 function buildArticle(topic) {
     const contentDiv = document.getElementById('article-content');
     contentDiv.innerHTML = '';
