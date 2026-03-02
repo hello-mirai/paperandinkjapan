@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CYBER-WASHI | The Four Pillars</title>
+    <title>CYBER-WASHI | Atomic Tradition</title>
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=Noto+Serif+JP:wght@900&display=swap" rel="stylesheet">
@@ -66,7 +66,7 @@
             z-index: 9998;
         }
 
-        /* --- 1. SPATIAL VOID (Overworld) --- */
+        /* --- 1. SPATIAL VOID --- */
         #void-viewport {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: 10;
@@ -76,71 +76,59 @@
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
         }
 
-        .hud-element {
-            position: absolute;
-            z-index: 20;
-            pointer-events: none;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            font-size: 0.7rem;
-            color: var(--neon-cyan);
-            opacity: 0.6;
-        }
-
-        /* Artifact Labels */
+        /* Artifact Labels - Prominence Increased by ~20% */
         .artifact-label {
             position: absolute;
-            padding: 1rem;
-            border-left: 2px solid var(--neon-crimson);
-            background: rgba(255, 0, 85, 0.05);
-            backdrop-filter: blur(5px);
+            padding: 1.2rem; /* Increased padding */
+            border-left: 3px solid var(--neon-crimson); /* Bolder border */
+            background: rgba(255, 0, 85, 0.08);
+            backdrop-filter: blur(8px);
             pointer-events: auto;
             cursor: pointer;
-            transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 30;
             display: flex;
             flex-direction: column;
-            gap: 5px;
-            min-width: 180px;
+            gap: 8px;
+            min-width: 200px; /* Increased width */
             transform: translate(-50%, -50%);
         }
         .artifact-label:hover {
-            background: rgba(255, 0, 85, 0.15);
-            border-left-width: 5px;
-            padding-left: 1.5rem;
-            transform: translate(-50%, -50%) scale(1.05);
-            box-shadow: -10px 0 30px rgba(255, 0, 85, 0.2);
+            background: rgba(255, 0, 85, 0.2);
+            border-left-width: 6px;
+            padding-left: 1.8rem;
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: -15px 0 40px rgba(255, 0, 85, 0.3);
         }
+
+        /* Text prominence */
+        .artifact-label .text-xl { font-size: 1.4rem; letter-spacing: 0.15em; }
+        .artifact-label .text-xs { font-size: 0.75rem; }
 
         @media (max-width: 768px) {
             .artifact-label {
-                padding: 0.5rem;
-                min-width: 140px;
+                padding: 0.8rem;
+                min-width: 160px;
             }
-            .artifact-label .text-xl { font-size: 0.8rem; }
-            .artifact-label .text-xs { font-size: 0.5rem; }
-            h1 { font-size: 2.2rem; }
-            h2 { font-size: 1.8rem; }
+            .artifact-label .text-xl { font-size: 1rem; }
+            .artifact-label .text-xs { font-size: 0.6rem; }
+            
+            /* 70% Width Rule for Mobile Text */
+            .story-content { 
+                width: 70% !important; 
+                margin: 0 auto 3rem !important;
+                text-align: center;
+            }
             .story-section { 
                 flex-direction: column; 
-                padding: 8vh 8vw; 
-                text-align: center;
-                min-height: auto;
-            }
-            .story-content { 
-                width: 100%; 
-                margin-bottom: 3rem;
+                padding: 10vh 0; 
+                align-items: center;
             }
             .story-visual-container { 
                 width: 100%; 
                 height: 35vh;
                 position: relative;
                 top: 0;
-            }
-            .cyber-btn {
-                top: 1rem; right: 1rem;
-                padding: 0.5rem 1rem;
-                font-size: 0.6rem;
             }
         }
 
@@ -153,16 +141,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-        }
-
-        .glitch-text {
-            font-size: clamp(2rem, 10vw, 5rem);
-            font-weight: 900;
-            color: white;
-            position: relative;
-            text-shadow: 2px 0 var(--neon-crimson), -2px 0 var(--neon-cyan);
-            text-align: center;
         }
 
         /* --- 3. SCROLLYTELLING ARTICLE --- */
@@ -179,18 +157,19 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: space-around; /* Better desktop spacing */
             padding: 0 10vw;
             position: relative;
+            gap: 5vw; /* Grid-like gap */
         }
 
         .story-content {
-            width: 45%;
+            width: 40%;
             z-index: 2;
         }
 
         .story-visual-container {
-            width: 50%;
+            width: 40%;
             height: 80vh;
             display: flex;
             align-items: center;
@@ -199,121 +178,96 @@
             top: 10vh;
         }
 
-        .neon-path {
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            filter: drop-shadow(0 0 8px var(--neon-cyan));
-        }
-
-        /* Close Button */
         .cyber-btn {
             position: fixed;
             top: 2rem; right: 2rem;
             z-index: 60;
             background: transparent;
-            border: 1px solid var(--neon-cyan);
+            border: 2px solid var(--neon-cyan);
             color: var(--neon-cyan);
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 2rem;
             text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 0.1em;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
             transition: all 0.3s;
-            overflow: hidden;
         }
-        .cyber-btn::before {
-            content: '';
-            position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: var(--neon-cyan);
-            transition: 0.3s;
-            z-index: -1;
-        }
-        .cyber-btn:hover { color: var(--bg-obsidian); }
-        .cyber-btn:hover::before { left: 0; }
+        .cyber-btn:hover { background: var(--neon-cyan); color: var(--bg-obsidian); }
 
-        /* Scroll Progress */
         #scroll-progress {
-            position: fixed; top: 0; left: 0; width: 0%; height: 4px;
+            position: fixed; top: 0; left: 0; width: 0%; height: 6px;
             background: linear-gradient(90deg, var(--neon-crimson), var(--neon-cyan));
             z-index: 70;
         }
 
-        h1 { font-size: clamp(2rem, 8vw, 5rem); line-height: 0.9; margin-bottom: 2rem; color: #fff; }
-        h2 { font-size: clamp(1.5rem, 5vw, 3rem); margin-bottom: 1.5rem; color: var(--neon-cyan); }
-        p { font-size: clamp(0.9rem, 2vw, 1.2rem); line-height: 1.8; color: var(--washi-muted); margin-bottom: 1.5rem; }
-        strong { color: var(--neon-crimson); }
-
-        /* Interactive Grid */
-        #grid-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px), 
-                              linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            transform: perspective(500px) rotateX(60deg) translateY(-200px);
-            opacity: 0.3;
-            z-index: 0;
-            pointer-events: none;
-        }
+        h2 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 2rem; color: var(--neon-cyan); }
+        p { font-size: clamp(1rem, 1.2vw, 1.3rem); line-height: 1.8; color: var(--washi-muted); margin-bottom: 2rem; }
     </style>
 </head>
 <body>
 
-    <!-- Overlays -->
     <div id="washi-overlay"></div>
     <div id="scanlines"></div>
     <div id="scroll-progress"></div>
 
-    <!-- 1. SPATIAL VOID -->
+    <!-- 1. SPATIAL VOID (ATOMIC TOPICS) -->
     <div id="void-viewport">
         <canvas id="void-canvas-3d"></canvas>
-        <div id="grid-bg"></div>
-
-        <!-- HUD Elements -->
-        <div class="hud-element top-10 left-10 hidden sm:block">SYSTEM_ONLINE // PROTOCOL_ZEN</div>
-        <div class="hud-element top-10 right-10 hidden sm:block">LOC: [35.6762° N, 139.6503° E]</div>
-        <div class="hud-element bottom-10 left-10">PAPER & INK // PILLARS_CORE_V2</div>
         
-        <!-- Pillar Labels -->
-        <div class="artifact-label" id="label-glitch" onclick="triggerGlitch('glitch')">
-            <span class="text-xs opacity-50 font-mono">01_PHILOSOPHY</span>
-            <span class="text-xl font-jp uppercase tracking-widest">GLITCH PROTOCOL</span>
+        <!-- Individual Topic Labels -->
+        <div class="artifact-label" id="label-wabisabi" onclick="triggerGlitch('wabisabi')">
+            <span class="text-xs opacity-50 font-mono">01_AESTHETIC</span>
+            <span class="text-xl font-jp uppercase tracking-widest">WABI-SABI</span>
         </div>
 
-        <div class="artifact-label" id="label-ink" onclick="triggerGlitch('ink')">
-            <span class="text-xs opacity-50 font-mono">02_MEDIA</span>
-            <span class="text-xl font-jp uppercase tracking-widest">INK-STREAM</span>
+        <div class="artifact-label" id="label-kintsugi" onclick="triggerGlitch('kintsugi')">
+            <span class="text-xs opacity-50 font-mono">02_REPAIR</span>
+            <span class="text-xl font-jp uppercase tracking-widest">KINTSUGI</span>
         </div>
 
-        <div class="artifact-label" id="label-geo" onclick="triggerGlitch('geo')">
-            <span class="text-xs opacity-50 font-mono">03_ENGINEERING</span>
-            <span class="text-xl font-jp uppercase tracking-widest">GEO-LOCK</span>
+        <div class="artifact-label" id="label-shodo" onclick="triggerGlitch('shodo')">
+            <span class="text-xs opacity-50 font-mono">03_BRUSH</span>
+            <span class="text-xl font-jp uppercase tracking-widest">SHODO</span>
         </div>
 
-        <div class="artifact-label" id="label-system" onclick="triggerGlitch('system')">
-            <span class="text-xs opacity-50 font-mono">04_IDENTITY</span>
-            <span class="text-xl font-jp uppercase tracking-widest">THE SYSTEM MARK</span>
+        <div class="artifact-label" id="label-ukiyoe" onclick="triggerGlitch('ukiyoe')">
+            <span class="text-xs opacity-50 font-mono">04_MEDIA</span>
+            <span class="text-xl font-jp uppercase tracking-widest">UKIYO-E</span>
+        </div>
+
+        <div class="artifact-label" id="label-origami" onclick="triggerGlitch('origami')">
+            <span class="text-xs opacity-50 font-mono">05_FOLD</span>
+            <span class="text-xl font-jp uppercase tracking-widest">ORIGAMI</span>
+        </div>
+
+        <div class="artifact-label" id="label-kumiki" onclick="triggerGlitch('kumiki')">
+            <span class="text-xs opacity-50 font-mono">06_LOCK</span>
+            <span class="text-xl font-jp uppercase tracking-widest">KUMIKI</span>
+        </div>
+
+        <div class="artifact-label" id="label-ma" onclick="triggerGlitch('ma')">
+            <span class="text-xs opacity-50 font-mono">07_VOID</span>
+            <span class="text-xl font-jp uppercase tracking-widest">MA</span>
+        </div>
+
+        <div class="artifact-label" id="label-hanko" onclick="triggerGlitch('hanko')">
+            <span class="text-xs opacity-50 font-mono">08_MARK</span>
+            <span class="text-xl font-jp uppercase tracking-widest">HANKO</span>
         </div>
     </div>
 
     <!-- 2. GLITCH TRANSITION -->
     <div id="glitch-overlay">
-        <div class="glitch-text" id="glitch-title">INITIALIZING...</div>
-        <div class="mt-4 font-mono text-xs tracking-[1em] text-[var(--neon-cyan)] animate-pulse">CONNECTING_TO_HISTORY</div>
+        <div class="glitch-text" id="glitch-title">DECRYPTING...</div>
     </div>
 
     <!-- 3. SCROLLYTELLING ARTICLE -->
     <div id="article-viewport">
-        <button class="cyber-btn" onclick="returnToVoid()">
-            [ DISCONNECT ]
-        </button>
-        
-        <div id="article-content" class="relative">
-            <!-- Content Injected via JS -->
-        </div>
+        <button class="cyber-btn" onclick="returnToVoid()">[ RETURN_TO_VOID ]</button>
+        <div id="article-content"></div>
     </div>
 
-    <!-- Interaction Cursor -->
-    <div id="cursor-glow" class="fixed w-20 h-20 rounded-full pointer-events-none z-[10000] opacity-30" 
-         style="background: radial-gradient(circle, var(--neon-cyan) 0%, transparent 70%); transition: transform 0.1s ease-out;"></div>
+    <div id="cursor-glow" class="fixed w-24 h-24 rounded-full pointer-events-none z-[10000] opacity-30" 
+         style="background: radial-gradient(circle, var(--neon-cyan) 0%, transparent 70%);"></div>
 
     <script src="app.js"></script>
 </body>
